@@ -69,5 +69,27 @@
 
             return new PropertyDescriptorCollection(properties.ToArray());
         }
+
+        /// <summary>
+        /// Returns the specified dynamic property descriptor for the object represented by this
+        /// type descriptor.
+        /// </summary>
+        /// <param name="propertyName">The name of the property.</param>
+        /// <returns>
+        /// The specified dynamic property descriptor for the object represented by this type
+        /// descriptor.
+        /// </returns>
+        public DynamicPropertyDescriptor GetDynamicProperty(string propertyName)
+        {
+            foreach (DynamicPropertyDescriptor property in this.dynamicProperties)
+            {
+                if (String.Equals(property.Name, propertyName))
+                {
+                    return property;
+                }
+            }
+
+            return null;
+        }
     }
 }

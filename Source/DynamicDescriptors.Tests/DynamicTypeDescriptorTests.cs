@@ -103,5 +103,27 @@
             Assert.That(descriptor.GetProperties(null), Is.EqualTo(descriptor.GetProperties()));
             Assert.That(descriptor.GetProperties(new Attribute[] { }), Is.EqualTo(descriptor.GetProperties()));
         }
-    }
+
+        [Test]
+        public void GetDynamicProperty_PropertyNameDoesNotMatchAProperty_ReturnsNull()
+        {
+            ExampleType instance = new ExampleType();
+            DynamicTypeDescriptor<ExampleType> descriptor = DynamicDescriptor.Create(instance);
+
+            Assert.That(descriptor.GetDynamicProperty(null), Is.Null);
+            Assert.That(descriptor.GetDynamicProperty("NotAValidPropertyName"), Is.Null);
+        }
+
+        [Test]
+        public void GetDynamicProperty_PropertyNameMatchesAProperty_ReturnsDynamicPropertyDescriptorForThatProperty()
+        {
+            ExampleType instance = new ExampleType();
+            DynamicTypeDescriptor<ExampleType> descriptor = DynamicDescriptor.Create(instance);
+
+            DynamicPropertyDescriptor propertyDescriptor = descriptor.GetDynamicProperty("Property1");
+
+            Assert.That(propertyDescriptor, Is.Not.Null);
+            Assert.That(propertyDescriptor.Name, Is.EqualTo("Property1"));
+        }
+   }
 }
