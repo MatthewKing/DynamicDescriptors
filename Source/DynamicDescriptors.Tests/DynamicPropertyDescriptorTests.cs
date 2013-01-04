@@ -123,5 +123,74 @@
             Assert.That(dynamicDescriptor.ShouldSerializeValue(component), Is.False);
             Assert.That(mockDescriptor.ShouldSerializeValueComponent, Is.EqualTo(component));
         }
+
+        [Test]
+        public void Category_NoOverride_ReturnsDescriptorCategory()
+        {
+            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            mockDescriptor.CategoryResult = "Base";
+
+            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+
+            Assert.That(dynamicDescriptor.Category, Is.EqualTo("Base"));
+        }
+
+        [Test]
+        public void Category_Override_ReturnsOverrideValue()
+        {
+            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            mockDescriptor.CategoryResult = "Base";
+
+            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            dynamicDescriptor.SetCategory("Override");
+
+            Assert.That(dynamicDescriptor.Category, Is.EqualTo("Override"));
+        }
+
+        [Test]
+        public void Description_NoOverride_ReturnsDescriptorCategory()
+        {
+            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            mockDescriptor.DescriptionResult = "Base";
+
+            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+
+            Assert.That(dynamicDescriptor.Description, Is.EqualTo("Base"));
+        }
+
+        [Test]
+        public void Description_Override_ReturnsOverrideValue()
+        {
+            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            mockDescriptor.DescriptionResult = "Base";
+
+            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            dynamicDescriptor.SetDescription("Override");
+
+            Assert.That(dynamicDescriptor.Description, Is.EqualTo("Override"));
+        }
+
+        [Test]
+        public void DisplayName_NoOverride_ReturnsDescriptorDisplayName()
+        {
+            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            mockDescriptor.DisplayNameResult = "Base";
+
+            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+
+            Assert.That(dynamicDescriptor.DisplayName, Is.EqualTo("Base"));
+        }
+
+        [Test]
+        public void DisplayName_Override_ReturnsOverrideValue()
+        {
+            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            mockDescriptor.DisplayNameResult = "Base";
+
+            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            dynamicDescriptor.SetDisplayName("Override");
+
+            Assert.That(dynamicDescriptor.DisplayName, Is.EqualTo("Override"));
+        }
     }
 }

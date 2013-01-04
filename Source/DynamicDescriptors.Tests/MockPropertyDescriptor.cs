@@ -64,5 +64,14 @@
             this.ShouldSerializeValueComponent = component;
             return this.ShouldSerializeValueResult;
         }
+
+        public string CategoryResult { get; set; }
+        public override string Category { get { return this.CategoryResult; } }
+
+        public string DescriptionResult { get; set; }
+        public override string Description { get { return this.DescriptionResult; } }
+
+        public string DisplayNameResult { get; set; }
+        public override string DisplayName { get { return this.DisplayNameResult; } }
     }
 }
