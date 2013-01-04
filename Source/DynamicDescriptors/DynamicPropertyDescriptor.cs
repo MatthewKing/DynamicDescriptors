@@ -14,6 +14,24 @@
         private readonly PropertyDescriptor descriptor;
 
         /// <summary>
+        /// If this value is not null, it will be returned by the Category property;
+        /// otherwise, the base descriptor's Category property will be returned.
+        /// </summary>
+        private string categoryOverride;
+
+        /// <summary>
+        /// If this value is not null, it will be returned by the Description property;
+        /// otherwise, the base descriptor's Description property will be returned.
+        /// </summary>
+        private string descriptionOverride;
+
+        /// <summary>
+        /// If this value is not null, it will be returned by the DisplayName property;
+        /// otherwise, the base descriptor's DisplayName property will be returned.
+        /// </summary>
+        private string displayNameOverride;
+
+        /// <summary>
         /// Initializes a new instance of the DynamicPropertyDescriptor class.
         /// </summary>
         /// <param name="descriptor">
@@ -36,11 +54,46 @@
         }
 
         /// <summary>
+        /// Gets the name of the category to which the member belongs, as specified in the
+        /// System.ComponentModel.CategoryAttribute.
+        /// </summary>
+        public override string Category
+        {
+            get
+            {
+                return this.categoryOverride ?? this.descriptor.Category;
+            }
+        }
+
+        /// <summary>
         /// Gets the type of the component this property is bound to.
         /// </summary>
         public override Type ComponentType
         {
             get { return this.descriptor.ComponentType; }
+        }
+
+        /// <summary>
+        /// Gets the description of the member, as specified in the
+        /// System.ComponentModel.DescriptionAttribute.
+        /// </summary>
+        public override string Description
+        {
+            get
+            {
+                return this.descriptionOverride ?? this.descriptor.Description;
+            }
+        }
+
+        /// <summary>
+        /// Gets the name that can be displayed in a window, such as a Properties window.
+        /// </summary>
+        public override string DisplayName
+        {
+            get
+            {
+                return this.displayNameOverride ?? this.descriptor.DisplayName;
+            }
         }
 
         /// <summary>
@@ -108,5 +161,42 @@
         {
             return this.descriptor.ShouldSerializeValue(component);
         }
+
+        #region Fluent interface
+
+        /// <summary>
+        /// Sets the override for the Category property.
+        /// </summary>
+        /// <param name="category">The new Category value.</param>
+        /// <returns>This DynamicPropertyDescriptor instance.</returns>
+        public DynamicPropertyDescriptor SetCategory(string category)
+        {
+            this.categoryOverride = category;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the override for the Description property.
+        /// </summary>
+        /// <param name="description">The new Description value.</param>
+        /// <returns>This DynamicPropertyDescriptor instance.</returns>
+        public DynamicPropertyDescriptor SetDescription(string description)
+        {
+            this.descriptionOverride = description;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the override for the DisplayName property.
+        /// </summary>
+        /// <param name="displayName">The new DisplayName value.</param>
+        /// <returns>This DynamicPropertyDescriptor instance.</returns>
+        public DynamicPropertyDescriptor SetDisplayName(string displayName)
+        {
+            this.displayNameOverride = displayName;
+            return this;
+        }
+
+        #endregion
     }
 }
