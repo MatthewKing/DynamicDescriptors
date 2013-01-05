@@ -1,4 +1,4 @@
-Copyright Matthew King 2012
+Copyright Matthew King 2012-2013
 
 Boost Software License - Version 1.0 - August 17th, 2003
 
