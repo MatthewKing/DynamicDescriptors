@@ -6,7 +6,10 @@
     internal sealed class MockPropertyDescriptor : PropertyDescriptor
     {
         public MockPropertyDescriptor()
-            : base("MockProperty", new Attribute[] { }) { }
+            : this("MockProperty") { }
+
+        public MockPropertyDescriptor(string name)
+            : base(name, new Attribute[] { }) { }
 
         public Type ComponentTypeResult { get; set; }
         public override Type ComponentType { get { return this.ComponentTypeResult; } }

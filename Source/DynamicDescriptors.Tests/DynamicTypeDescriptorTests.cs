@@ -23,6 +23,8 @@
 
             [AttributeOne, AttributeTwo]
             public string Property3 { get; set; }
+
+            public string Property4 { get; set; }
         }
 
         [Test]
@@ -41,17 +43,19 @@
             DynamicTypeDescriptor<ExampleType> descriptor = DynamicDescriptor.Create(instance);
             PropertyDescriptorCollection properties = descriptor.GetProperties();
 
-            bool containsProperty1 = false, containsProperty2 = false, containsProperty3 = false;
+            bool containsProperty1 = false, containsProperty2 = false, containsProperty3 = false, containsProperty4 = false;
             foreach (PropertyDescriptor property in properties)
             {
                 if (property.Name == "Property1") containsProperty1 = true;
                 if (property.Name == "Property2") containsProperty2 = true;
                 if (property.Name == "Property3") containsProperty3 = true;
+                if (property.Name == "Property4") containsProperty4 = true;
             }
 
             Assert.That(containsProperty1, Is.True);
             Assert.That(containsProperty2, Is.True);
             Assert.That(containsProperty3, Is.True);
+            Assert.That(containsProperty4, Is.True);
         }
 
         [Test]
@@ -61,17 +65,19 @@
             DynamicTypeDescriptor<ExampleType> descriptor = DynamicDescriptor.Create(instance);
             PropertyDescriptorCollection properties = descriptor.GetProperties(new Attribute[] { new AttributeOne() });
 
-            bool containsProperty1 = false, containsProperty2 = false, containsProperty3 = false;
+            bool containsProperty1 = false, containsProperty2 = false, containsProperty3 = false, containsProperty4 = false;
             foreach (PropertyDescriptor property in properties)
             {
                 if (property.Name == "Property1") containsProperty1 = true;
                 if (property.Name == "Property2") containsProperty2 = true;
                 if (property.Name == "Property3") containsProperty3 = true;
+                if (property.Name == "Property4") containsProperty4 = true;
             }
 
             Assert.That(containsProperty1, Is.True);
             Assert.That(containsProperty2, Is.False);
             Assert.That(containsProperty3, Is.True);
+            Assert.That(containsProperty4, Is.False);
         }
 
         [Test]
@@ -81,17 +87,19 @@
             DynamicTypeDescriptor<ExampleType> descriptor = DynamicDescriptor.Create(instance);
             PropertyDescriptorCollection properties = descriptor.GetProperties(new Attribute[] { new AttributeOne(), new AttributeTwo() });
 
-            bool containsProperty1 = false, containsProperty2 = false, containsProperty3 = false;
+            bool containsProperty1 = false, containsProperty2 = false, containsProperty3 = false, containsProperty4 = false;
             foreach (PropertyDescriptor property in properties)
             {
                 if (property.Name == "Property1") containsProperty1 = true;
                 if (property.Name == "Property2") containsProperty2 = true;
                 if (property.Name == "Property3") containsProperty3 = true;
+                if (property.Name == "Property4") containsProperty4 = true;
             }
 
             Assert.That(containsProperty1, Is.False);
             Assert.That(containsProperty2, Is.False);
             Assert.That(containsProperty3, Is.True);
+            Assert.That(containsProperty4, Is.False);
         }
 
         [Test]
@@ -102,6 +110,77 @@
 
             Assert.That(descriptor.GetProperties(null), Is.EqualTo(descriptor.GetProperties()));
             Assert.That(descriptor.GetProperties(new Attribute[] { }), Is.EqualTo(descriptor.GetProperties()));
+        }
+
+        [Test]
+        public void GetProperties_NoPropertyOrderSet_ReturnsPropertiesInAlphabeticalOrder()
+        {
+            ExampleType instance = new ExampleType();
+            DynamicTypeDescriptor<ExampleType> descriptor = DynamicDescriptor.Create(instance);
+
+            PropertyDescriptorCollection properties = descriptor.GetProperties();
+
+            Assert.That(properties[0].Name, Is.EqualTo("Property1"));
+            Assert.That(properties[1].Name, Is.EqualTo("Property2"));
+            Assert.That(properties[2].Name, Is.EqualTo("Property3"));
+            Assert.That(properties[3].Name, Is.EqualTo("Property4"));
+        }
+
+        [Test]
+        public void GetProperties_PropertyOrderSet_ReturnsPropertiesInOrderSpecifiedByPropertyOrder()
+        {
+            ExampleType instance = new ExampleType();
+            DynamicTypeDescriptor<ExampleType> descriptor = DynamicDescriptor.Create(instance);
+
+            descriptor.GetDynamicProperty("Property1").SetPropertyOrder(3);
+            descriptor.GetDynamicProperty("Property2").SetPropertyOrder(2);
+            descriptor.GetDynamicProperty("Property3").SetPropertyOrder(1);
+            descriptor.GetDynamicProperty("Property4").SetPropertyOrder(0);
+
+            PropertyDescriptorCollection properties = descriptor.GetProperties();
+
+            Assert.That(properties[0].Name, Is.EqualTo("Property4"));
+            Assert.That(properties[1].Name, Is.EqualTo("Property3"));
+            Assert.That(properties[2].Name, Is.EqualTo("Property2"));
+            Assert.That(properties[3].Name, Is.EqualTo("Property1"));
+        }
+
+        [Test]
+        public void GetProperties_PropertyOrderSet_MultiplePropertiesHaveTheSameOrder_ReturnThosePropertiesInAlphabeticalOrder()
+        {
+            ExampleType instance = new ExampleType();
+            DynamicTypeDescriptor<ExampleType> descriptor = DynamicDescriptor.Create(instance);
+
+            descriptor.GetDynamicProperty("Property1").SetPropertyOrder(1);
+            descriptor.GetDynamicProperty("Property2").SetPropertyOrder(1);
+            descriptor.GetDynamicProperty("Property3").SetPropertyOrder(0);
+            descriptor.GetDynamicProperty("Property4").SetPropertyOrder(0);
+
+            PropertyDescriptorCollection properties = descriptor.GetProperties();
+
+            Assert.That(properties[0].Name, Is.EqualTo("Property3"));
+            Assert.That(properties[1].Name, Is.EqualTo("Property4"));
+            Assert.That(properties[2].Name, Is.EqualTo("Property1"));
+            Assert.That(properties[3].Name, Is.EqualTo("Property2"));
+        }
+
+        [Test]
+        public void GetProperties_SomePropertyOrdersSet_ReturnsPropertiesInOrderSpecifiedByPropertyOrderThenOtherPropertiesInAlphabeticalOrder()
+        {
+            ExampleType instance = new ExampleType();
+            DynamicTypeDescriptor<ExampleType> descriptor = DynamicDescriptor.Create(instance);
+
+            descriptor.GetDynamicProperty("Property1").SetPropertyOrder(null);
+            descriptor.GetDynamicProperty("Property2").SetPropertyOrder(null);
+            descriptor.GetDynamicProperty("Property3").SetPropertyOrder(1);
+            descriptor.GetDynamicProperty("Property4").SetPropertyOrder(0);
+
+            PropertyDescriptorCollection properties = descriptor.GetProperties();
+
+            Assert.That(properties[0].Name, Is.EqualTo("Property4"));
+            Assert.That(properties[1].Name, Is.EqualTo("Property3"));
+            Assert.That(properties[2].Name, Is.EqualTo("Property1"));
+            Assert.That(properties[3].Name, Is.EqualTo("Property2"));
         }
 
         [Test]

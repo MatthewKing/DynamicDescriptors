@@ -18,6 +18,11 @@
         private readonly IList<DynamicPropertyDescriptor> dynamicProperties;
 
         /// <summary>
+        /// Comparer to use when sorting a list of dynamic property descriptors.
+        /// </summary>
+        private readonly IComparer<DynamicPropertyDescriptor> comparer;
+
+        /// <summary>
         /// Initializes a new instance of the DynamicTypeDescriptor class.
         /// </summary>
         /// <param name="parent">The parent custom type descriptor.</param>
@@ -25,6 +30,8 @@
             : base(Preconditions.CheckNotNull(parent, "parent"))
         {
             this.dynamicProperties = new List<DynamicPropertyDescriptor>();
+            this.comparer = new DynamicPropertyDescriptorComparer();
+
             foreach (PropertyDescriptor propertyDescriptor in base.GetProperties())
             {
                 this.dynamicProperties.Add(new DynamicPropertyDescriptor(propertyDescriptor));
@@ -57,7 +64,7 @@
         /// </returns>
         public override PropertyDescriptorCollection GetProperties(Attribute[] attributes)
         {
-            List<PropertyDescriptor> properties = new List<PropertyDescriptor>();
+            List<DynamicPropertyDescriptor> properties = new List<DynamicPropertyDescriptor>();
 
             foreach (DynamicPropertyDescriptor property in this.dynamicProperties)
             {
@@ -66,6 +73,8 @@
                     properties.Add(property);
                 }
             }
+
+            properties.Sort(this.comparer);
 
             return new PropertyDescriptorCollection(properties.ToArray());
         }

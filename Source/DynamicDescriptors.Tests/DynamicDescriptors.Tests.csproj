@@ -42,6 +42,7 @@
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
     <Compile Include="DynamicDescriptorTests.cs" />
+    <Compile Include="DynamicPropertyDescriptorComparerTests.cs" />
     <Compile Include="DynamicPropertyDescriptorTests.cs" />
     <Compile Include="DynamicTypeDescriptorTests.cs" />
     <Compile Include="MockPropertyDescriptor.cs" />
