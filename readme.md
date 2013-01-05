@@ -23,6 +23,35 @@ descriptor.GetProperty("PropertyTwo")
 propertyGrid.SelectedObject = descriptor;
 ```
 
+What can be customized?
+-----------------------
+
+**DisplayName:**
+```csharp
+descriptor.GetProperty("PropertyName").SetDisplayName("Property display name");
+```
+This modifies the value returned by the [DisplayName property](http://msdn.microsoft.com/en-us/library/system.componentmodel.memberdescriptor.displayname.aspx).
+
+**Description:**
+```csharp
+descriptor.GetProperty("PropertyName").SetDescription("A description of the property");
+```
+This modifies the value returned by the [Description property](http://msdn.microsoft.com/en-us/library/system.componentmodel.memberdescriptor.description.aspx).
+
+**Category:**
+```csharp
+descriptor.GetProperty("PropertyName").SetCategory("Category name");
+```
+This modifies the value returned by the [Category property](http://msdn.microsoft.com/en-us/library/system.componentmodel.memberdescriptor.category.aspx).
+
+**Property order:**
+```csharp
+descriptor.GetProperty("PropertyOne").SetPropertyOrder(1);
+descriptor.GetProperty("PropertyTwo").SetPropertyOrder(2);
+descriptor.GetProperty("PropertyThree").SetPropertyOrder(3);
+```
+This modifies the order in which properties are returned by the [GetProperties method](http://msdn.microsoft.com/en-us/library/hc91c96t.aspx).
+
 Copyright
 ---------
 Copyright Matthew King 2012.
