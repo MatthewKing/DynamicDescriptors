@@ -38,6 +38,7 @@
     </Compile>
     <Compile Include="DynamicDescriptor.cs" />
     <Compile Include="DynamicPropertyDescriptor.cs" />
+    <Compile Include="DynamicPropertyDescriptorComparer.cs" />
     <Compile Include="DynamicTypeDescriptor.cs" />
     <Compile Include="Preconditions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

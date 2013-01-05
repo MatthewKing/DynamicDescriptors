@@ -32,6 +32,11 @@
         private string displayNameOverride;
 
         /// <summary>
+        /// The order in which this property will be retrieved from its type descriptor.
+        /// </summary>
+        private Nullable<int> propertyOrder;
+
+        /// <summary>
         /// Initializes a new instance of the DynamicPropertyDescriptor class.
         /// </summary>
         /// <param name="descriptor">
@@ -117,6 +122,14 @@
         }
 
         /// <summary>
+        /// Gets the order in which this property will be retrieved from its type descriptor.
+        /// </summary>
+        public Nullable<int> PropertyOrder
+        {
+            get { return this.propertyOrder; }
+        }
+
+        /// <summary>
         /// Gets the type of the property.
         /// </summary>
         public override Type PropertyType
@@ -194,6 +207,17 @@
         public DynamicPropertyDescriptor SetDisplayName(string displayName)
         {
             this.displayNameOverride = displayName;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the order in which this property will be retrieved from its type descriptor.
+        /// </summary>
+        /// <param name="propertyOrder">The order in which this property will be retrieved.</param>
+        /// <returns>This DynamicPropertyDescriptor instance.</returns>
+        public DynamicPropertyDescriptor SetPropertyOrder(Nullable<int> propertyOrder)
+        {
+            this.propertyOrder = propertyOrder;
             return this;
         }
 
