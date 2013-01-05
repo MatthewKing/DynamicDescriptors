@@ -29,7 +29,7 @@
             {
                 if (y == null)
                 {
-                    // Two nulls shall be considered equal.
+                    // two nulls shall be considered equal.
                     return 0;
                 }
                 else
