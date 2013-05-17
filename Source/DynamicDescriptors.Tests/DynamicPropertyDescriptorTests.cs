@@ -59,19 +59,6 @@
         }
 
         [Test]
-        public void IsReadOnly_ReturnsResultOfDescriptorReadOnly()
-        {
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
-
-            mockDescriptor.IsReadOnlyResult = true;
-            Assert.That(dynamicDescriptor.IsReadOnly, Is.True);
-
-            mockDescriptor.IsReadOnlyResult = false;
-            Assert.That(dynamicDescriptor.IsReadOnly, Is.False);
-        }
-
-        [Test]
         public void PropertyType_ReturnsResultOfDescriptorPropertyType()
         {
             MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
@@ -220,6 +207,29 @@
             dynamicDescriptor.SetDisplayName("Override");
 
             Assert.That(dynamicDescriptor.DisplayName, Is.EqualTo("Override"));
+        }
+
+        [TestCase(true), TestCase(false)]
+        public void IsReadOnly_NoOverride_ReturnsDescriptorValue(bool value)
+        {
+            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            mockDescriptor.IsReadOnlyResult = value;
+
+            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+
+            Assert.That(dynamicDescriptor.IsReadOnly, Is.EqualTo(value));
+        }
+
+        [TestCase(true, true), TestCase(true, false), TestCase(false, true), TestCase(false, false)]
+        public void IsReadOnly_Override_ReturnsOverrideValue(bool descriptorValue, bool overrideValue)
+        {
+            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            mockDescriptor.IsReadOnlyResult = descriptorValue;
+
+            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            dynamicDescriptor.SetReadOnly(overrideValue);
+
+            Assert.That(dynamicDescriptor.IsReadOnly, Is.EqualTo(overrideValue));
         }
     }
 }

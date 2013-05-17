@@ -51,6 +51,12 @@ descriptor.GetProperty("PropertyName").SetConverter(converter);
 ```
 This modifies the value returned by the [Converter property](http://msdn.microsoft.com/en-us/library/system.componentmodel.propertydescriptor.converter.aspx).
 
+**IsReadOnly:**
+```csharp
+descriptor.GetProperty("PropertyName").SetReadOnly(true);
+```
+This modifies the value returned by the [IsReadOnly property](http://msdn.microsoft.com/en-us/library/system.componentmodel.propertydescriptor.isreadonly.aspx).
+
 **Property order:**
 ```csharp
 descriptor.GetProperty("PropertyOne").SetPropertyOrder(1);
