@@ -61,7 +61,7 @@ This modifies the order in which properties are returned by the [GetProperties m
 
 Copyright
 ---------
-Copyright Matthew King 2012.
+Copyright Matthew King 2012-2013.
 
 License
 -------
