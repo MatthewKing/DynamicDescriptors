@@ -71,6 +71,9 @@
         public string CategoryResult { get; set; }
         public override string Category { get { return this.CategoryResult; } }
 
+        public TypeConverter ConverterResult { get; set; }
+        public override TypeConverter Converter { get { return this.ConverterResult; } }
+
         public string DescriptionResult { get; set; }
         public override string Description { get { return this.DescriptionResult; } }
 

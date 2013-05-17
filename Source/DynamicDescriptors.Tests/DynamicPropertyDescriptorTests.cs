@@ -2,6 +2,7 @@
 {
     using System;
     using NUnit.Framework;
+    using System.ComponentModel;
 
     [TestFixture]
     internal sealed class DynamicPropertyDescriptorTests
@@ -145,6 +146,34 @@
             dynamicDescriptor.SetCategory("Override");
 
             Assert.That(dynamicDescriptor.Category, Is.EqualTo("Override"));
+        }
+
+        [Test]
+        public void Converter_NoOverride_ReturnsDescriptorConverter()
+        {
+            TypeConverter converter = new TypeConverter();
+
+            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            mockDescriptor.ConverterResult = converter;
+
+            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+
+            Assert.That(dynamicDescriptor.Converter, Is.EqualTo(converter));
+        }
+
+        [Test]
+        public void Converter_Override_ReturnsOverrideValue()
+        {
+            TypeConverter converterBase = new TypeConverter();
+            TypeConverter converterOverride = new TypeConverter();
+
+            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            mockDescriptor.ConverterResult = converterBase;
+
+            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            dynamicDescriptor.SetConverter(converterOverride);
+
+            Assert.That(dynamicDescriptor.Converter, Is.EqualTo(converterOverride));
         }
 
         [Test]

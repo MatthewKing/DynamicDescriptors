@@ -20,6 +20,12 @@
         private string categoryOverride;
 
         /// <summary>
+        /// If this value is not null, it will be returned by the Converter property;
+        /// otherwise, the base descriptor's Converter property will be returned.
+        /// </summary>
+        private TypeConverter converterOverride;
+
+        /// <summary>
         /// If this value is not null, it will be returned by the Description property;
         /// otherwise, the base descriptor's Description property will be returned.
         /// </summary>
@@ -76,6 +82,14 @@
         public override Type ComponentType
         {
             get { return this.descriptor.ComponentType; }
+        }
+
+        /// <summary>
+        /// Gets the type converter for this property.
+        /// </summary>
+        public override TypeConverter Converter
+        {
+            get { return this.converterOverride ?? this.descriptor.Converter; }
         }
 
         /// <summary>
@@ -185,6 +199,17 @@
         public DynamicPropertyDescriptor SetCategory(string category)
         {
             this.categoryOverride = category;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the override for the Converter property.
+        /// </summary>
+        /// <param name="converter">The new Converter value.</param>
+        /// <returns>This DynamicPropertyDescriptor instance.</returns>
+        public DynamicPropertyDescriptor SetConverter(TypeConverter converter)
+        {
+            this.converterOverride = converter;
             return this;
         }
 
