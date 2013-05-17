@@ -126,7 +126,7 @@
         }
 
         [Test]
-        public void Category_NoOverride_ReturnsDescriptorCategory()
+        public void Category_NoOverride_ReturnsDescriptorValue()
         {
             MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
             mockDescriptor.CategoryResult = "Base";
@@ -149,7 +149,7 @@
         }
 
         [Test]
-        public void Converter_NoOverride_ReturnsDescriptorConverter()
+        public void Converter_NoOverride_ReturnsDescriptorValue()
         {
             TypeConverter converter = new TypeConverter();
 
@@ -177,7 +177,7 @@
         }
 
         [Test]
-        public void Description_NoOverride_ReturnsDescriptorCategory()
+        public void Description_NoOverride_ReturnsDescriptorValue()
         {
             MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
             mockDescriptor.DescriptionResult = "Base";
@@ -200,7 +200,7 @@
         }
 
         [Test]
-        public void DisplayName_NoOverride_ReturnsDescriptorDisplayName()
+        public void DisplayName_NoOverride_ReturnsDescriptorValue()
         {
             MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
             mockDescriptor.DisplayNameResult = "Base";
