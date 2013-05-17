@@ -44,6 +44,13 @@ descriptor.GetProperty("PropertyName").SetCategory("Category name");
 ```
 This modifies the value returned by the [Category property](http://msdn.microsoft.com/en-us/library/system.componentmodel.memberdescriptor.category.aspx).
 
+**Converter:**
+```csharp
+TypeConverter converter = /* your custom type converter */;
+descriptor.GetProperty("PropertyName").SetConverter(converter);
+```
+This modifies the value returned by the [Converter property](http://msdn.microsoft.com/en-us/library/system.componentmodel.propertydescriptor.converter.aspx).
+
 **Property order:**
 ```csharp
 descriptor.GetProperty("PropertyOne").SetPropertyOrder(1);
