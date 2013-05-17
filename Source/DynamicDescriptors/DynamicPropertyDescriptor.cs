@@ -38,6 +38,12 @@
         private string displayNameOverride;
 
         /// <summary>
+        /// If this value is not null, it will be returned by the IsReadOnly property;
+        /// otherwise, the base descriptor's IsReadOnly property will be returned.
+        /// </summary>
+        private Nullable<bool> isReadOnlyOverride;
+
+        /// <summary>
         /// The order in which this property will be retrieved from its type descriptor.
         /// </summary>
         private Nullable<int> propertyOrder;
@@ -132,7 +138,7 @@
         /// </summary>
         public override bool IsReadOnly
         {
-            get { return this.descriptor.IsReadOnly; }
+            get { return this.isReadOnlyOverride ?? this.descriptor.IsReadOnly; }
         }
 
         /// <summary>
@@ -243,6 +249,17 @@
         public DynamicPropertyDescriptor SetPropertyOrder(Nullable<int> propertyOrder)
         {
             this.propertyOrder = propertyOrder;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the override for the IsReadOnly property.
+        /// </summary>
+        /// <param name="readOnly">The new IsReadOnly value.</param>
+        /// <returns>This DynamicPropertyDescriptor instance.</returns>
+        public DynamicPropertyDescriptor SetReadOnly(Nullable<bool> readOnly)
+        {
+            this.isReadOnlyOverride = readOnly;
             return this;
         }
 
