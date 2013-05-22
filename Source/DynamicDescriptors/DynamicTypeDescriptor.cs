@@ -7,10 +7,7 @@
     /// <summary>
     /// A runtime-customizable implementation of ICustomTypeDescriptor.
     /// </summary>
-    /// <typeparam name="T">
-    /// The type of the object for which dynamic custom type information will be supplied.
-    /// </typeparam>
-    public sealed class DynamicTypeDescriptor<T> : CustomTypeDescriptor, ICustomTypeDescriptor
+    public sealed class DynamicTypeDescriptor : CustomTypeDescriptor, ICustomTypeDescriptor
     {
         /// <summary>
         /// A list containing the properties associated with this type descriptor.

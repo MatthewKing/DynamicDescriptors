@@ -31,7 +31,7 @@
         public void Constructor_ParentIsNull_ThrowsArgumentNullException()
         {
             const string message = "parent should not be null.";
-            Assert.That(() => new DynamicTypeDescriptor<object>(null),
+            Assert.That(() => new DynamicTypeDescriptor(null),
                 Throws.TypeOf<ArgumentNullException>()
                       .And.Message.Contains(message));
         }
@@ -40,7 +40,7 @@
         public void GetProperties_ReturnsNormalProperties()
         {
             ExampleType instance = new ExampleType();
-            DynamicTypeDescriptor<ExampleType> descriptor = DynamicDescriptor.Create(instance);
+            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromInstance(instance);
             PropertyDescriptorCollection properties = descriptor.GetProperties();
 
             bool containsProperty1 = false, containsProperty2 = false, containsProperty3 = false, containsProperty4 = false;
@@ -62,7 +62,7 @@
         public void GetProperties_SingleAttribute_ReturnsPropertiesWithThatAttribute()
         {
             ExampleType instance = new ExampleType();
-            DynamicTypeDescriptor<ExampleType> descriptor = DynamicDescriptor.Create(instance);
+            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromInstance(instance);
             PropertyDescriptorCollection properties = descriptor.GetProperties(new Attribute[] { new AttributeOne() });
 
             bool containsProperty1 = false, containsProperty2 = false, containsProperty3 = false, containsProperty4 = false;
@@ -84,7 +84,7 @@
         public void GetProperties_MultipleAttributes_ReturnsPropertiesWithAllOfThoseAttributes()
         {
             ExampleType instance = new ExampleType();
-            DynamicTypeDescriptor<ExampleType> descriptor = DynamicDescriptor.Create(instance);
+            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromInstance(instance);
             PropertyDescriptorCollection properties = descriptor.GetProperties(new Attribute[] { new AttributeOne(), new AttributeTwo() });
 
             bool containsProperty1 = false, containsProperty2 = false, containsProperty3 = false, containsProperty4 = false;
@@ -106,7 +106,7 @@
         public void GetProperties_NullOrEmptyAttributeArray_ReturnsSameValueAsGetPropertiesWithoutAttributesSpecified()
         {
             ExampleType instance = new ExampleType();
-            DynamicTypeDescriptor<ExampleType> descriptor = DynamicDescriptor.Create(instance);
+            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromInstance(instance);
 
             Assert.That(descriptor.GetProperties(null), Is.EqualTo(descriptor.GetProperties()));
             Assert.That(descriptor.GetProperties(new Attribute[] { }), Is.EqualTo(descriptor.GetProperties()));
@@ -116,7 +116,7 @@
         public void GetProperties_NoPropertyOrderSet_ReturnsPropertiesInAlphabeticalOrder()
         {
             ExampleType instance = new ExampleType();
-            DynamicTypeDescriptor<ExampleType> descriptor = DynamicDescriptor.Create(instance);
+            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromInstance(instance);
 
             PropertyDescriptorCollection properties = descriptor.GetProperties();
 
@@ -130,7 +130,7 @@
         public void GetProperties_PropertyOrderSet_ReturnsPropertiesInOrderSpecifiedByPropertyOrder()
         {
             ExampleType instance = new ExampleType();
-            DynamicTypeDescriptor<ExampleType> descriptor = DynamicDescriptor.Create(instance);
+            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromInstance(instance);
 
             descriptor.GetDynamicProperty("Property1").SetPropertyOrder(3);
             descriptor.GetDynamicProperty("Property2").SetPropertyOrder(2);
@@ -149,7 +149,7 @@
         public void GetProperties_PropertyOrderSet_MultiplePropertiesHaveTheSameOrder_ReturnThosePropertiesInAlphabeticalOrder()
         {
             ExampleType instance = new ExampleType();
-            DynamicTypeDescriptor<ExampleType> descriptor = DynamicDescriptor.Create(instance);
+            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromInstance(instance);
 
             descriptor.GetDynamicProperty("Property1").SetPropertyOrder(1);
             descriptor.GetDynamicProperty("Property2").SetPropertyOrder(1);
@@ -168,7 +168,7 @@
         public void GetProperties_SomePropertyOrdersSet_ReturnsPropertiesInOrderSpecifiedByPropertyOrderThenOtherPropertiesInAlphabeticalOrder()
         {
             ExampleType instance = new ExampleType();
-            DynamicTypeDescriptor<ExampleType> descriptor = DynamicDescriptor.Create(instance);
+            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromInstance(instance);
 
             descriptor.GetDynamicProperty("Property1").SetPropertyOrder(null);
             descriptor.GetDynamicProperty("Property2").SetPropertyOrder(null);
@@ -187,7 +187,7 @@
         public void GetDynamicProperty_PropertyNameDoesNotMatchAProperty_ReturnsNull()
         {
             ExampleType instance = new ExampleType();
-            DynamicTypeDescriptor<ExampleType> descriptor = DynamicDescriptor.Create(instance);
+            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromInstance(instance);
 
             Assert.That(descriptor.GetDynamicProperty(null), Is.Null);
             Assert.That(descriptor.GetDynamicProperty("NotAValidPropertyName"), Is.Null);
@@ -197,7 +197,7 @@
         public void GetDynamicProperty_PropertyNameMatchesAProperty_ReturnsDynamicPropertyDescriptorForThatProperty()
         {
             ExampleType instance = new ExampleType();
-            DynamicTypeDescriptor<ExampleType> descriptor = DynamicDescriptor.Create(instance);
+            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromInstance(instance);
 
             DynamicPropertyDescriptor propertyDescriptor = descriptor.GetDynamicProperty("Property1");
 
