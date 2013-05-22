@@ -8,7 +8,7 @@ Properties can be customized with an easy-to-use fluent interface:
 ```csharp
 var instanceToBind = new ExampleClass();
 
-var descriptor = DynamicDescriptor.Create(instanceToBind);
+var descriptor = DynamicDescriptor.CreateFromInstance(instanceToBind);
 
 descriptor.GetProperty("PropertyOne")
     .SetDisplayName("Property #1")
