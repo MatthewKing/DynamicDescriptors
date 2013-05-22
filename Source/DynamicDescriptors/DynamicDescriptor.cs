@@ -22,7 +22,7 @@
         /// A new DynamicTypeDescriptor&lt;T&gt; instance that will supply dynamic custom type
         /// information for the specified object.
         /// </returns>
-        public static DynamicTypeDescriptor<T> Create<T>(T instance)
+        public static DynamicTypeDescriptor CreateFromInstance<T>(T instance)
         {
             if (instance == null)
             {
@@ -31,7 +31,28 @@
 
             TypeDescriptionProvider provider = TypeDescriptor.GetProvider(instance);
             ICustomTypeDescriptor descriptor = provider.GetTypeDescriptor(instance);
-            return new DynamicTypeDescriptor<T>(descriptor);
+            return new DynamicTypeDescriptor(descriptor);
+        }
+
+        /// <summary>
+        /// Returns a new DynamicTypeDescriptor&lt;T&gt; instance that wraps the specified
+        /// ICustomTypeDescriptor.
+        /// </summary>
+        /// <param name="descriptor">
+        /// The ICustomTypeDescriptor to wrap.
+        /// </param>
+        /// <returns>
+        /// A new DynamicTypeDescriptor&lt;T&gt; instance that wraps the specified
+        /// ICustomTypeDescriptor.
+        /// </returns>
+        public static DynamicTypeDescriptor CreateFromDescriptor(ICustomTypeDescriptor descriptor)
+        {
+            if (descriptor == null)
+            {
+                throw new ArgumentNullException("instance", "instance should not be null.");
+            }
+
+            return new DynamicTypeDescriptor(descriptor);
         }
     }
 }
