@@ -23,6 +23,44 @@ descriptor.GetProperty("PropertyTwo")
 propertyGrid.SelectedObject = descriptor;
 ```
 
+Binding to an object instance
+-----------------------------
+
+We can create a DynamicDescriptor for an object instance:
+
+```csharp
+var instance = new ExampleClass();
+
+var descriptor = DynamicDescriptor.CreateFromInstance(instance);
+```
+
+Binding to a dictionary
+-----------------------
+
+We can create a DynamicDescriptor backed by a dictionary. This will act as if the dictionary key/value pairs are properties of a bound object:
+
+```csharp
+var data = new Dictionary<string, object>();
+data["Property1"] = "hello";
+data["Property2"] = "world";
+
+var descriptor = DynamicDescriptor.CreateFromDictionary(data);
+```
+
+We can also supply type information:
+
+```csharp
+var data = new Dictionary<string, object>();
+data["Property1"] = "value";
+data["Property2"] = 1;
+
+var types = new Dictionary<string, Type>();
+type["Property1"] = typeof(string);
+type["Property2"] = typeof(int);
+
+var descriptor = DynamicDescriptor.CreateFromDictionary(data, types);
+```
+
 What can be customized?
 -----------------------
 
