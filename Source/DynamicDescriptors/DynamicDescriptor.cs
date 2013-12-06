@@ -10,8 +10,8 @@
     public static class DynamicDescriptor
     {
         /// <summary>
-        /// Returns a new DynamicTypeDescriptor&lt;T&gt; instance that will supply dynamic
-        /// custom type information for the specified object.
+        /// Returns a new DynamicTypeDescriptor instance that will supply dynamic custom type
+        /// information for the specified object.
         /// </summary>
         /// <typeparam name="T">
         /// The type of the object for which dynamic custom type information will be supplied.
@@ -20,7 +20,7 @@
         /// The object for which dynamic custom type information will be supplied.
         /// </param>
         /// <returns>
-        /// A new DynamicTypeDescriptor&lt;T&gt; instance that will supply dynamic custom type
+        /// A new DynamicTypeDescriptor instance that will supply dynamic custom type
         /// information for the specified object.
         /// </returns>
         public static DynamicTypeDescriptor CreateFromInstance<T>(T instance)
@@ -36,7 +36,7 @@
         }
 
         /// <summary>
-        /// Returns a new DynamicTypeDescriptor&lt;T&gt; instance that wraps the specified
+        /// Returns a new DynamicTypeDescriptor instance that wraps the specified
         /// ICustomTypeDescriptor.
         /// </summary>
         /// <param name="descriptor">
