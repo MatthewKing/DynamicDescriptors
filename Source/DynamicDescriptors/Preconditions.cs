@@ -25,5 +25,28 @@
 
             return value;
         }
+
+        /// <summary>
+        /// Provides 'is not null or an empty string' parameter validation.
+        /// </summary>
+        /// <param name="value">The value of the parameter.</param>
+        /// <param name="parameterName">The name of the parameter.</param>
+        /// <returns>The value of the parameter (if it was not null or empty).</returns>
+        public static string CheckNotNullOrEmpty(string value, string parameterName)
+        {
+            if (value == null)
+            {
+                string message = parameterName + " should not be null.";
+                throw new ArgumentNullException(parameterName, message);
+            }
+
+            if (value.Length == 0)
+            {
+                string message = parameterName + " should not be an empty string.";
+                throw new ArgumentException(message, parameterName);
+            }
+
+            return value;
+        }
     }
 }
