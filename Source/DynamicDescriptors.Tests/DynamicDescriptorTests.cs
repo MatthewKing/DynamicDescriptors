@@ -1,6 +1,7 @@
 ﻿namespace DynamicDescriptors.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using NUnit.Framework;
 
@@ -39,6 +40,39 @@
         {
             ICustomTypeDescriptor baseDescriptor = new MockCustomTypeDescriptor();
             DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromDescriptor(baseDescriptor);
+
+            Assert.That(descriptor, Is.Not.Null);
+        }
+
+        [Test]
+        public void CreateFromDictionary_DataDictionaryIsNull_ThrowsArgumentNullException()
+        {
+            const string message = "data should not be null.";
+
+            Assert.That(() => DynamicDescriptor.CreateFromDictionary(null),
+                Throws.TypeOf<ArgumentNullException>()
+                      .And.Message.Contains(message));
+
+            Assert.That(() => DynamicDescriptor.CreateFromDictionary(null, null),
+                Throws.TypeOf<ArgumentNullException>()
+                      .And.Message.Contains(message));
+        }
+
+        [Test]
+        public void CreateFromDictionary_DataDictionaryIsNotNull_TypeDictionaryNotPresent_ReturnsNewDynamicTypeDescriptorInstance()
+        {
+            IDictionary<string, object> data = new Dictionary<string, object>();
+            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromDictionary(data);
+
+            Assert.That(descriptor, Is.Not.Null);
+        }
+
+        [Test]
+        public void CreateFromDictionary_DataDictionaryIsNotNull_TypeDictionaryPresent_ReturnsNewDynamicTypeDescriptorInstance()
+        {
+            IDictionary<string, object> data = new Dictionary<string, object>();
+            IDictionary<string, Type> types = new Dictionary<string, Type>();
+            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromDictionary(data, types);
 
             Assert.That(descriptor, Is.Not.Null);
         }
