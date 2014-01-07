@@ -61,7 +61,7 @@
         }
 
         /// <summary>
-        /// Returns a value indicating returns whether resetting an object changes its value.
+        /// Returns a value indicating whether resetting an object changes its value.
         /// </summary>
         /// <param name="component">The component to test for reset capability.</param>
         /// <returns>true if resetting the component changes its value; otherwise, false.</returns>

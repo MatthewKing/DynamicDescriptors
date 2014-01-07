@@ -63,10 +63,9 @@
         /// descriptor.
         /// </summary>
         /// <param name="pd">
-        /// A System.ComponentModel.PropertyDescriptor that represents the property whose
-        /// owner is to be found.
+        /// A PropertyDescriptor that represents the property whose owner is to be found.
         /// </param>
-        /// <returns>An System.Object that represents the owner of the specified property.</returns>
+        /// <returns>An object that represents the owner of the specified property.</returns>
         public override object GetPropertyOwner(PropertyDescriptor pd)
         {
             return this.data;
