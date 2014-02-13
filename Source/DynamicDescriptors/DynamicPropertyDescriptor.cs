@@ -20,6 +20,12 @@
         private readonly IDictionary<Type, object> editorDictionary;
 
         /// <summary>
+        /// Gets or sets a value indicating whether the dynamic property descriptor is active.
+        /// If not, it won't be returned by the DynamicTypeDescriptor's GetProperties method.
+        /// </summary>
+        private bool active;
+
+        /// <summary>
         /// If this value is not null, it will be returned by the Category property;
         /// otherwise, the base descriptor's Category property will be returned.
         /// </summary>
@@ -65,6 +71,17 @@
         {
             this.descriptor = descriptor;
             this.editorDictionary = new Dictionary<Type, object>();
+            this.active = true;
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the dynamic property descriptor is active.
+        /// If not, it won't be returned by the DynamicTypeDescriptor's GetProperties method.
+        /// </summary>
+        public bool Active
+        {
+            get { return this.active; }
+            set { this.active = value; }
         }
 
         /// <summary>
@@ -227,6 +244,19 @@
         }
 
         #region Fluent interface
+
+        /// <summary>
+        /// Sets value that determines whether the dynamic property descriptor is active.
+        /// </summary>
+        /// <param name="active">
+        /// The value that determines whether the dynamic property descriptor is active.
+        /// </param>
+        /// <returns>This DynamicPropertyDescriptor instance.</returns>
+        public DynamicPropertyDescriptor SetActive(bool active)
+        {
+            this.active = active;
+            return this;
+        }
 
         /// <summary>
         /// Sets the override for the Category property.

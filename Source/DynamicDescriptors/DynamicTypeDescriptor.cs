@@ -67,7 +67,10 @@
             {
                 if (attributes == null || property.Attributes.Contains(attributes))
                 {
-                    properties.Add(property);
+                    if (property.Active)
+                    {
+                        properties.Add(property);
+                    }
                 }
             }
 
