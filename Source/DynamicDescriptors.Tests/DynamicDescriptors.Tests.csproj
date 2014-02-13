@@ -49,6 +49,7 @@
     <Compile Include="DynamicTypeDescriptorTests.cs" />
     <Compile Include="MockCustomTypeDescriptor.cs" />
     <Compile Include="MockPropertyDescriptor.cs" />
+    <Compile Include="MockUITypeEditor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

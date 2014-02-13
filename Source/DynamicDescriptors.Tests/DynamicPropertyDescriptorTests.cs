@@ -1,8 +1,8 @@
 ﻿namespace DynamicDescriptors.Tests
 {
     using System;
-    using NUnit.Framework;
     using System.ComponentModel;
+    using NUnit.Framework;
 
     [TestFixture]
     internal sealed class DynamicPropertyDescriptorTests
@@ -230,6 +230,67 @@
             dynamicDescriptor.SetReadOnly(overrideValue);
 
             Assert.That(dynamicDescriptor.IsReadOnly, Is.EqualTo(overrideValue));
+        }
+
+        [Test]
+        public void GetEditor_NoOverride_ReturnsDescriptorValue()
+        {
+            MockUITypeEditor baseEditor = new MockUITypeEditor();
+
+            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            mockDescriptor.GetEditorResult = baseEditor;
+
+            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+
+            Assert.That(dynamicDescriptor.GetEditor(typeof(MockUITypeEditor)), Is.EqualTo(baseEditor));
+        }
+
+        [Test]
+        public void GetEditor_Override_ReturnsOverrideValue()
+        {
+            MockUITypeEditor baseEditor = new MockUITypeEditor();
+            MockUITypeEditor overrideEditor = new MockUITypeEditor();
+
+            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            mockDescriptor.GetEditorResult = baseEditor;
+
+            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            dynamicDescriptor.SetEditor(typeof(MockUITypeEditor), overrideEditor);
+
+            Assert.That(dynamicDescriptor.GetEditor(typeof(MockUITypeEditor)), Is.EqualTo(overrideEditor));
+        }
+
+        [Test]
+        public void GetEditor_OverrideThenClear_ReturnsDescriptorValue()
+        {
+            MockUITypeEditor baseEditor = new MockUITypeEditor();
+            MockUITypeEditor overrideEditor = new MockUITypeEditor();
+
+            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            mockDescriptor.GetEditorResult = baseEditor;
+
+            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            dynamicDescriptor.SetEditor(typeof(MockUITypeEditor), overrideEditor);
+            dynamicDescriptor.SetEditor(typeof(MockUITypeEditor), null);
+
+            Assert.That(dynamicDescriptor.GetEditor(typeof(MockUITypeEditor)), Is.EqualTo(baseEditor));
+        }
+
+        [Test]
+        public void GetEditor_MultipleOverrides_ReturnsMostRecentOverrideValue()
+        {
+            MockUITypeEditor baseEditor = new MockUITypeEditor();
+            MockUITypeEditor overrideEditor1 = new MockUITypeEditor();
+            MockUITypeEditor overrideEditor2 = new MockUITypeEditor();
+
+            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            mockDescriptor.GetEditorResult = baseEditor;
+
+            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            dynamicDescriptor.SetEditor(typeof(MockUITypeEditor), overrideEditor1);
+            dynamicDescriptor.SetEditor(typeof(MockUITypeEditor), overrideEditor2);
+
+            Assert.That(dynamicDescriptor.GetEditor(typeof(MockUITypeEditor)), Is.EqualTo(overrideEditor2));
         }
     }
 }
