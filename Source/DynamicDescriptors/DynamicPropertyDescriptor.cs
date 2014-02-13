@@ -1,6 +1,7 @@
 ﻿namespace DynamicDescriptors
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
 
     /// <summary>
@@ -12,6 +13,11 @@
         /// The PropertyDescriptor on which this DynamicPropertyDescriptor is based.
         /// </summary>
         private readonly PropertyDescriptor descriptor;
+
+        /// <summary>
+        /// A dictionary mapping editor base types to editor instances.
+        /// </summary>
+        private readonly IDictionary<Type, object> editorDictionary;
 
         /// <summary>
         /// If this value is not null, it will be returned by the Category property;
@@ -58,6 +64,7 @@
             : base(Preconditions.CheckNotNull(descriptor, "descriptor"))
         {
             this.descriptor = descriptor;
+            this.editorDictionary = new Dictionary<Type, object>();
         }
 
         /// <summary>
@@ -119,6 +126,30 @@
             {
                 return this.displayNameOverride ?? this.descriptor.DisplayName;
             }
+        }
+
+        /// <summary>
+        /// Gets an editor of the specified type.
+        /// </summary>
+        /// <param name="editorBaseType">
+        /// The base type of editor, which is used to differentiate between multiple
+        /// editors that a property supports.
+        /// </param>
+        /// <returns>
+        /// An instance of the requested editor type, or null if an editor cannot be found.
+        /// </returns>
+        public override object GetEditor(Type editorBaseType)
+        {
+            if (editorBaseType != null)
+            {
+                object editor;
+                if (this.editorDictionary.TryGetValue(editorBaseType, out editor))
+                {
+                    return editor;
+                }
+            }
+
+            return this.descriptor.GetEditor(editorBaseType);
         }
 
         /// <summary>
@@ -238,6 +269,44 @@
         public DynamicPropertyDescriptor SetDisplayName(string displayName)
         {
             this.displayNameOverride = displayName;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the editor for this type.
+        /// </summary>
+        /// <param name="editorBaseType">
+        /// The base type of editor, which is used to differentiate between multiple editors
+        /// that a property supports.
+        /// </param>
+        /// <param name="editor">
+        /// An instance of the requested editor type.
+        /// </param>
+        /// <returns>This DynamicPropertyDescriptor instance.</returns>
+        public DynamicPropertyDescriptor SetEditor(Type editorBaseType, object editor)
+        {
+            if (editorBaseType != null)
+            {
+                if (this.editorDictionary.ContainsKey(editorBaseType))
+                {
+                    if (editor == null)
+                    {
+                        this.editorDictionary.Remove(editorBaseType);
+                    }
+                    else
+                    {
+                        this.editorDictionary[editorBaseType] = editor;
+                    }
+                }
+                else
+                {
+                    if (editor != null)
+                    {
+                        this.editorDictionary.Add(editorBaseType, editor);
+                    }
+                }
+            }
+
             return this;
         }
 

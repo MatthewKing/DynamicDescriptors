@@ -20,8 +20,18 @@
         public Type PropertyTypeResult { get; set; }
         public override Type PropertyType { get { return this.PropertyTypeResult; } }
 
-        public object GetValueComponent { get; private set; }
+        public object GetEditorResult { get; set; }
+        public object GetEditorEditorBaseType { get; private set; }
+        public bool GetEditorCalled { get; private set; }
+        public override object GetEditor(Type editorBaseType)
+        {
+            this.GetEditorCalled = true;
+            this.GetEditorEditorBaseType = editorBaseType;
+            return this.GetEditorResult;
+        }
+
         public object GetValueResult { get; set; }
+        public object GetValueComponent { get; private set; }
         public bool GetValueCalled { get; private set; }
         public override object GetValue(object component)
         {
@@ -48,9 +58,9 @@
             this.ResetValueComponent = component;
         }
 
-        public object CanResetValueComponent { get; private set; }
         public bool CanResetValueResult { get; set; }
-        public bool CanResetValueCalled { get; set; }
+        public object CanResetValueComponent { get; private set; }
+        public bool CanResetValueCalled { get; private set; }
         public override bool CanResetValue(object component)
         {
             this.CanResetValueCalled = true;
@@ -58,9 +68,9 @@
             return this.CanResetValueResult;
         }
 
-        public object ShouldSerializeValueComponent { get; private set; }
         public bool ShouldSerializeValueResult { get; set; }
-        public bool ShouldSerializeValueCalled { get; set; }
+        public object ShouldSerializeValueComponent { get; private set; }
+        public bool ShouldSerializeValueCalled { get; private set; }
         public override bool ShouldSerializeValue(object component)
         {
             this.ShouldSerializeValueCalled = true;
