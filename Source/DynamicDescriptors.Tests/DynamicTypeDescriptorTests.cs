@@ -103,6 +103,24 @@
         }
 
         [Test]
+        public void GetProperties_SomePropertiesAreNotActive_ReturnsOnlyActiveProperties()
+        {
+            ExampleType instance = new ExampleType();
+            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromInstance(instance);
+
+            descriptor.GetDynamicProperty("Property1").SetActive(true);
+            descriptor.GetDynamicProperty("Property2").SetActive(false);
+            descriptor.GetDynamicProperty("Property3").SetActive(true);
+            descriptor.GetDynamicProperty("Property4").SetActive(false);
+
+            PropertyDescriptorCollection properties = descriptor.GetProperties();
+
+            Assert.That(properties.Count, Is.EqualTo(2));
+            Assert.That(properties[0].Name, Is.EqualTo("Property1"));
+            Assert.That(properties[1].Name, Is.EqualTo("Property3"));
+        }
+
+        [Test]
         public void GetProperties_NullOrEmptyAttributeArray_ReturnsSameValueAsGetPropertiesWithoutAttributesSpecified()
         {
             ExampleType instance = new ExampleType();
