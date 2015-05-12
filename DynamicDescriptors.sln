@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicDescriptors", "src\DynamicDescriptors\DynamicDescriptors.csproj", "{73E6AD16-1530-49A6-8D8C-1E43ABFC488C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicDescriptors.Tests", "src\DynamicDescriptors.Tests\DynamicDescriptors.Tests.csproj", "{05BF2455-BF46-41AD-8CD7-2A3947C29072}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73E6AD16-1530-49A6-8D8C-1E43ABFC488C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73E6AD16-1530-49A6-8D8C-1E43ABFC488C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73E6AD16-1530-49A6-8D8C-1E43ABFC488C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73E6AD16-1530-49A6-8D8C-1E43ABFC488C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05BF2455-BF46-41AD-8CD7-2A3947C29072}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05BF2455-BF46-41AD-8CD7-2A3947C29072}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05BF2455-BF46-41AD-8CD7-2A3947C29072}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05BF2455-BF46-41AD-8CD7-2A3947C29072}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
