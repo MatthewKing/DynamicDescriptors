@@ -2,9 +2,12 @@
 [Bb]in/
 [Oo]bj/
 
-# build results
+# build
 [Dd]ebug/
 [Rr]elease/
+build/tools/
+build/temp/
+build/output/
 
 # user-specific files
 *.suo
