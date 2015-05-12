@@ -222,5 +222,5 @@
             Assert.That(propertyDescriptor, Is.Not.Null);
             Assert.That(propertyDescriptor.Name, Is.EqualTo("Property1"));
         }
-   }
+    }
 }
