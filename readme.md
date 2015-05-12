@@ -103,10 +103,14 @@ descriptor.GetProperty("PropertyThree").SetPropertyOrder(3);
 ```
 This modifies the order in which properties are returned by the [GetProperties method](http://msdn.microsoft.com/en-us/library/hc91c96t.aspx).
 
-Copyright
----------
-Copyright Matthew King 2012-2014.
+Installation
+============
 
-License
--------
-DynamicDescriptors is licensed under the [Boost Software License](http://www.boost.org/users/license.html). Refer to license.txt for more information.
+Just grab it from [NuGet](https://www.nuget.org/packages/DynamicDescriptors/)
+
+`PM> Install-Package DynamicDescriptors`
+
+License and copyright
+---------------------
+Copyright Matthew King 2012-2015.
+Distributed under the [MIT License](http://opensource.org/licenses/MIT). Refer to license.txt for more information.
