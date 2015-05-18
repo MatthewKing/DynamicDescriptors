@@ -52,6 +52,7 @@
     <Compile Include="MockPropertyDescriptor.cs" />
     <Compile Include="MockUITypeEditor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReflectTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\DynamicDescriptors\DynamicDescriptors.csproj">

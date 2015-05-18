@@ -25,6 +25,10 @@
             public string Property3 { get; set; }
 
             public string Property4 { get; set; }
+
+            public string field;
+
+            public string Method() { return null; }
         }
 
         [Test]
@@ -218,6 +222,33 @@
             DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromInstance(instance);
 
             DynamicPropertyDescriptor propertyDescriptor = descriptor.GetDynamicProperty("Property1");
+
+            Assert.That(propertyDescriptor, Is.Not.Null);
+            Assert.That(propertyDescriptor.Name, Is.EqualTo("Property1"));
+        }
+
+        [Test]
+        public void GetDynamicProperty_ExpressionRefersToSomethingOtherThanAProperty_ReturnsNull()
+        {
+            ExampleType instance = new ExampleType();
+            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromInstance(instance);
+
+            Assert.That(() => descriptor.GetDynamicProperty<ExampleType>(o => o.field),
+                Throws.TypeOf<ArgumentException>()
+                      .And.Message.Contains("Expression 'o => o.field' refers to a field, not a property."));
+
+            Assert.That(() => descriptor.GetDynamicProperty<ExampleType>(o => o.Method()),
+                Throws.TypeOf<ArgumentException>()
+                      .And.Message.Contains("Expression 'o => o.Method()' refers to a method, not a property."));
+        }
+
+        [Test]
+        public void GetDynamicProperty_ExpressionRefersToAProperty_ReturnsDynamicPropertyDescriptorForThatProperty()
+        {
+            ExampleType instance = new ExampleType();
+            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromInstance(instance);
+
+            DynamicPropertyDescriptor propertyDescriptor = descriptor.GetDynamicProperty<ExampleType>(o => o.Property1);
 
             Assert.That(propertyDescriptor, Is.Not.Null);
             Assert.That(propertyDescriptor.Name, Is.EqualTo("Property1"));

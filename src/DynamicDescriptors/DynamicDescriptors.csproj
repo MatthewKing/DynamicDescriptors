@@ -48,6 +48,7 @@
     <Compile Include="DynamicTypeDescriptor.cs" />
     <Compile Include="Preconditions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflect.cs" />
     <Compile Include="StandardValuesStringConverter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

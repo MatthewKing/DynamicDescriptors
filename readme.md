@@ -10,12 +10,12 @@ var instanceToBind = new ExampleClass();
 
 var descriptor = DynamicDescriptor.CreateFromInstance(instanceToBind);
 
-descriptor.GetProperty("PropertyOne")
+descriptor.GetProperty("PropertyOne") // Get the property using its name.
     .SetDisplayName("Property #1")
     .SetDescription("The first property")
     .SetCategory("Example category");
     
-descriptor.GetProperty("PropertyTwo")
+descriptor.GetProperty<ExampleClass>(x => x.Property2) // Get the property using an expression.
     .SetDisplayName("Property #2")
     .SetDescription("The second property")
     .SetCategory("Example category");
