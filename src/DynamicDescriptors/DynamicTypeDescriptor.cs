@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq.Expressions;
 
     /// <summary>
     /// A runtime-customizable implementation of ICustomTypeDescriptor.
@@ -99,6 +100,25 @@
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Returns the specified dynamic property descriptor for the object represented by this
+        /// type descriptor.
+        /// </summary>
+        /// <typeparam name="TSource">Type containing the property.</typeparam>
+        /// <param name="propertyExpression">
+        /// An expression representing a function mapping an instance of type TSource to a property.
+        /// </param>
+        /// <returns>
+        /// The specified dynamic property descriptor for the object represented by this type
+        /// descriptor.
+        /// </returns>
+        public DynamicPropertyDescriptor GetDynamicProperty<TSource>(
+            Expression<Func<TSource, object>> propertyExpression)
+        {
+            string propertyName = Reflect.GetPropertyName(propertyExpression);
+            return this.GetDynamicProperty(propertyName);
         }
     }
 }
