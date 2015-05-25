@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq;
     using System.Linq.Expressions;
 
     /// <summary>
@@ -121,6 +122,23 @@
         {
             string propertyName = Reflect.GetPropertyName(propertyExpression);
             return this.GetDynamicProperty(propertyName);
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the sequence containing all dynamic
+        /// property descriptors for the object represented by this type descriptor.
+        /// </summary>
+        /// <returns>
+        /// An enumerator that iterates through the sequence containing all dynamic property
+        /// descriptors for the object represented by this type descriptor.
+        /// </returns>
+        public IEnumerable<DynamicPropertyDescriptor> GetDynamicProperties()
+        {
+            // This should return all dynamic properties, even those that are inactive.
+
+            return this.dynamicProperties
+                .OrderBy(o => o.PropertyOrder ?? Int32.MaxValue)
+                .ToArray();
         }
     }
 }
