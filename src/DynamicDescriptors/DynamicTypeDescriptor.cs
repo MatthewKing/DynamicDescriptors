@@ -107,15 +107,17 @@
         /// type descriptor.
         /// </summary>
         /// <typeparam name="TSource">Type containing the property.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
         /// <param name="propertyExpression">
-        /// An expression representing a function mapping an instance of type TSource to a property.
+        /// An expression representing a function mapping an instance of type TSource to a
+        /// property of type TProperty.
         /// </param>
         /// <returns>
         /// The specified dynamic property descriptor for the object represented by this type
         /// descriptor.
         /// </returns>
-        public DynamicPropertyDescriptor GetDynamicProperty<TSource>(
-            Expression<Func<TSource, object>> propertyExpression)
+        public DynamicPropertyDescriptor GetDynamicProperty<TSource, TProperty>(
+            Expression<Func<TSource, TProperty>> propertyExpression)
         {
             string propertyName = Reflect.GetPropertyName(propertyExpression);
             return this.GetDynamicProperty(propertyName);

@@ -15,7 +15,7 @@ descriptor.GetProperty("PropertyOne") // Get the property using its name.
     .SetDescription("The first property")
     .SetCategory("Example category");
     
-descriptor.GetProperty<ExampleClass>(x => x.Property2) // Get the property using an expression.
+descriptor.GetProperty((ExampleClass x) => x.Property2) // Get the property using an expression.
     .SetDisplayName("Property #2")
     .SetDescription("The second property")
     .SetCategory("Example category");
