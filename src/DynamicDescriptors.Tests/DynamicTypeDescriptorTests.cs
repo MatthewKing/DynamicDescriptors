@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel;
+    using System.Linq;
     using NUnit.Framework;
 
     [TestFixture]
@@ -264,6 +265,38 @@
 
             Assert.That(propertyDescriptor, Is.Not.Null);
             Assert.That(propertyDescriptor.Name, Is.EqualTo("Property4"));
+        }
+
+        [Test]
+        public void GetDynamicProperties_AllPropertiesActive_ReturnsSequenceContainingAllDynamicProperties()
+        {
+            ExampleType instance = new ExampleType();
+            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromInstance(instance);
+
+            DynamicPropertyDescriptor[] properties = descriptor.GetDynamicProperties().ToArray();
+
+            Assert.That(properties.Length, Is.EqualTo(4));
+            Assert.That(properties[0].Name, Is.EqualTo("Property1"));
+            Assert.That(properties[1].Name, Is.EqualTo("Property2"));
+            Assert.That(properties[2].Name, Is.EqualTo("Property3"));
+            Assert.That(properties[3].Name, Is.EqualTo("Property4"));
+        }
+
+        [Test]
+        public void GetDynamicProperties_SomePropertiesInactive_ReturnsSequenceContainingAllDynamicProperties()
+        {
+            ExampleType instance = new ExampleType();
+            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromInstance(instance);
+            descriptor.GetDynamicProperty((ExampleType o) => o.Property1).SetActive(false);
+            descriptor.GetDynamicProperty((ExampleType o) => o.Property4).SetActive(false);
+
+            DynamicPropertyDescriptor[] properties = descriptor.GetDynamicProperties().ToArray();
+
+            Assert.That(properties.Length, Is.EqualTo(4));
+            Assert.That(properties[0].Name, Is.EqualTo("Property1"));
+            Assert.That(properties[1].Name, Is.EqualTo("Property2"));
+            Assert.That(properties[2].Name, Is.EqualTo("Property3"));
+            Assert.That(properties[3].Name, Is.EqualTo("Property4"));
         }
     }
 }
