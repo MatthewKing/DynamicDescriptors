@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq;
 
     /// <summary>
     /// A System.ComponentModel.StringConverter that provides a collection of standard values.
@@ -11,7 +12,7 @@
         /// <summary>
         /// The standard values to be supported.
         /// </summary>
-        private readonly List<string> values;
+        private readonly IEnumerable<string> values;
 
         /// <summary>
         /// Initializes a new instance of the StandardValuesStringConverter class.
@@ -21,9 +22,7 @@
         /// </param>
         public StandardValuesStringConverter(IEnumerable<string> values)
         {
-            this.values = values != null
-                ? new List<string>(values)
-                : new List<string>();
+            this.values = values ?? Enumerable.Empty<string>();
         }
 
         /// <summary>
@@ -75,7 +74,7 @@
         /// </returns>
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            return new StandardValuesCollection(this.values);
+            return new StandardValuesCollection(new List<string>(this.values));
         }
     }
 }
