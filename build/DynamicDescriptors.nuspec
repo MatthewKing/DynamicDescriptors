@@ -10,7 +10,7 @@
     <description>Provides functionality to customize type and property descriptors at runtime. Exposes an easy-to-use fluent interface. Primarily intended to empower PropertyGrid binding.</description>
     <projectUrl>https://github.com/MatthewKing/DynamicDescriptors</projectUrl>
     <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
-    <copyright>Copyright 2012-2015 Matthew King. All rights reserved.</copyright>
+    <copyright>Copyright 2012-2016 Matthew King. All rights reserved.</copyright>
     <tags>dynamic type property descriptor</tags>
   </metadata>
 </package>
