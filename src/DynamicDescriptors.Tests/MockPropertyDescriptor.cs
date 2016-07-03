@@ -1,8 +1,8 @@
-﻿namespace DynamicDescriptors.Tests
-{
-    using System;
-    using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
+namespace DynamicDescriptors.Tests
+{
     internal sealed class MockPropertyDescriptor : PropertyDescriptor
     {
         public MockPropertyDescriptor()

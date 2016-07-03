@@ -1,24 +1,24 @@
-﻿namespace DynamicDescriptors
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+namespace DynamicDescriptors
+{
     /// <summary>
-    /// An implementation of IComparer for DynamicPropertyDescriptor instances.
+    /// An implementation of <see cref="IComparer{T}"/> for <see cref="DynamicPropertyDescriptorComparer"/> instances.
     /// </summary>
     internal sealed class DynamicPropertyDescriptorComparer : IComparer<DynamicPropertyDescriptor>
     {
         /// <summary>
-        /// The StringComparer to use to compare property names when unable to use property order.
+        /// The <see cref="StringComparer"/> to use to compare property names when unable to use property order.
         /// </summary>
         private static readonly StringComparer sc = StringComparer.OrdinalIgnoreCase;
 
         /// <summary>
-        /// Compares two DynamicPropertyDescriptor instances and returns a value indicating
+        /// Compares two <see cref="DynamicPropertyDescriptor"/> instances and returns a value indicating
         /// whether one is less than, equal to, or greater than the other.
         /// </summary>
-        /// <param name="x">The first DynamicPropertyDescriptor instance to compare.</param>
-        /// <param name="y">The second DynamicPropertyDescriptor instance to compare.</param>
+        /// <param name="x">The first <see cref="DynamicPropertyDescriptor"/> instance to compare.</param>
+        /// <param name="y">The second <see cref="DynamicPropertyDescriptor"/> instance to compare.</param>
         /// <returns>
         /// A value that is less than zero if x is less than y, zero if x equals y,
         /// or greater than zero if x is greater than y.

@@ -1,8 +1,8 @@
-﻿namespace DynamicDescriptors.Tests
-{
-    using System;
-    using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
+namespace DynamicDescriptors.Tests
+{
     [TestFixture]
     internal sealed class ReflectTests
     {

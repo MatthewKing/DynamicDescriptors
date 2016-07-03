@@ -1,87 +1,87 @@
-﻿namespace DynamicDescriptors
-{
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 
+namespace DynamicDescriptors
+{
     /// <summary>
-    /// A runtime-customizable implementation of PropertyDescriptor.
+    /// A runtime-customizable implementation of <see cref="PropertyDescriptor"/>.
     /// </summary>
     public sealed class DynamicPropertyDescriptor : PropertyDescriptor
     {
         /// <summary>
-        /// The PropertyDescriptor on which this DynamicPropertyDescriptor is based.
+        /// The <see cref="PropertyDescriptor"/> on which this <see cref="DynamicPropertyDescriptor"/> is based.
         /// </summary>
-        private readonly PropertyDescriptor descriptor;
+        private readonly PropertyDescriptor _descriptor;
 
         /// <summary>
         /// A dictionary mapping editor base types to editor instances.
         /// </summary>
-        private readonly IDictionary<Type, object> editorDictionary;
+        private readonly IDictionary<Type, object> _editorDictionary;
 
         /// <summary>
         /// Gets or sets a value indicating whether the dynamic property descriptor is active.
-        /// If not, it won't be returned by the DynamicTypeDescriptor's GetProperties method.
+        /// If not, it won't be returned by the <see cref="DynamicTypeDescriptor.GetProperties"/> method.
         /// </summary>
-        private bool active;
+        private bool _active;
 
         /// <summary>
         /// If this value is not null, it will be returned by the Category property;
         /// otherwise, the base descriptor's Category property will be returned.
         /// </summary>
-        private string categoryOverride;
+        private string _categoryOverride;
 
         /// <summary>
         /// If this value is not null, it will be returned by the Converter property;
         /// otherwise, the base descriptor's Converter property will be returned.
         /// </summary>
-        private TypeConverter converterOverride;
+        private TypeConverter _converterOverride;
 
         /// <summary>
         /// If this value is not null, it will be returned by the Description property;
         /// otherwise, the base descriptor's Description property will be returned.
         /// </summary>
-        private string descriptionOverride;
+        private string _descriptionOverride;
 
         /// <summary>
         /// If this value is not null, it will be returned by the DisplayName property;
         /// otherwise, the base descriptor's DisplayName property will be returned.
         /// </summary>
-        private string displayNameOverride;
+        private string _displayNameOverride;
 
         /// <summary>
         /// If this value is not null, it will be returned by the IsReadOnly property;
         /// otherwise, the base descriptor's IsReadOnly property will be returned.
         /// </summary>
-        private Nullable<bool> isReadOnlyOverride;
+        private bool? _isReadOnlyOverride;
 
         /// <summary>
         /// The order in which this property will be retrieved from its type descriptor.
         /// </summary>
-        private Nullable<int> propertyOrder;
+        private int? _propertyOrder;
 
         /// <summary>
-        /// Initializes a new instance of the DynamicPropertyDescriptor class.
+        /// Initializes a new instance of the <see cref="DynamicPropertyDescriptor"/> class.
         /// </summary>
         /// <param name="descriptor">
-        /// The PropertyDescriptor on which this DynamicPropertyDescriptor will be based.
+        /// The <see cref="PropertyDescriptor"/> on which this <see cref="DynamicPropertyDescriptor"/> will be based.
         /// </param>
         public DynamicPropertyDescriptor(PropertyDescriptor descriptor)
-            : base(Preconditions.CheckNotNull(descriptor, "descriptor"))
+            : base(Preconditions.CheckNotNull(descriptor, nameof(descriptor)))
         {
-            this.descriptor = descriptor;
-            this.editorDictionary = new Dictionary<Type, object>();
-            this.active = true;
+            _descriptor = descriptor;
+            _editorDictionary = new Dictionary<Type, object>();
+            _active = true;
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether the dynamic property descriptor is active.
-        /// If not, it won't be returned by the DynamicTypeDescriptor's GetProperties method.
+        /// If not, it won't be returned by the <see cref="DynamicTypeDescriptor.GetProperties"/> method.
         /// </summary>
         public bool Active
         {
-            get { return this.active; }
-            set { this.active = value; }
+            get { return _active; }
+            set { _active = value; }
         }
 
         /// <summary>
@@ -91,18 +91,18 @@
         /// <returns>true if resetting the component changes its value; otherwise, false.</returns>
         public override bool CanResetValue(object component)
         {
-            return this.descriptor.CanResetValue(component);
+            return _descriptor.CanResetValue(component);
         }
 
         /// <summary>
-        /// Gets the name of the category to which the member belongs, as specified in the
-        /// System.ComponentModel.CategoryAttribute.
+        /// Gets the name of the category to which the member belongs,
+        /// as specified in the <see cref="CategoryAttribute"/>.
         /// </summary>
         public override string Category
         {
             get
             {
-                return this.categoryOverride ?? this.descriptor.Category;
+                return _categoryOverride ?? _descriptor.Category;
             }
         }
 
@@ -111,7 +111,7 @@
         /// </summary>
         public override Type ComponentType
         {
-            get { return this.descriptor.ComponentType; }
+            get { return _descriptor.ComponentType; }
         }
 
         /// <summary>
@@ -119,18 +119,18 @@
         /// </summary>
         public override TypeConverter Converter
         {
-            get { return this.converterOverride ?? this.descriptor.Converter; }
+            get { return _converterOverride ?? _descriptor.Converter; }
         }
 
         /// <summary>
-        /// Gets the description of the member, as specified in the
-        /// System.ComponentModel.DescriptionAttribute.
+        /// Gets the description of the member,
+        /// as specified in the <see cref="DescriptionAttribute"/>. 
         /// </summary>
         public override string Description
         {
             get
             {
-                return this.descriptionOverride ?? this.descriptor.Description;
+                return _descriptionOverride ?? _descriptor.Description;
             }
         }
 
@@ -141,7 +141,7 @@
         {
             get
             {
-                return this.displayNameOverride ?? this.descriptor.DisplayName;
+                return _displayNameOverride ?? _descriptor.DisplayName;
             }
         }
 
@@ -160,13 +160,13 @@
             if (editorBaseType != null)
             {
                 object editor;
-                if (this.editorDictionary.TryGetValue(editorBaseType, out editor))
+                if (_editorDictionary.TryGetValue(editorBaseType, out editor))
                 {
                     return editor;
                 }
             }
 
-            return this.descriptor.GetEditor(editorBaseType);
+            return _descriptor.GetEditor(editorBaseType);
         }
 
         /// <summary>
@@ -178,7 +178,7 @@
         /// <returns>The value of a property for a given component.</returns>
         public override object GetValue(object component)
         {
-            return this.descriptor.GetValue(component);
+            return _descriptor.GetValue(component);
         }
 
         /// <summary>
@@ -186,15 +186,15 @@
         /// </summary>
         public override bool IsReadOnly
         {
-            get { return this.isReadOnlyOverride ?? this.descriptor.IsReadOnly; }
+            get { return _isReadOnlyOverride ?? _descriptor.IsReadOnly; }
         }
 
         /// <summary>
         /// Gets the order in which this property will be retrieved from its type descriptor.
         /// </summary>
-        public Nullable<int> PropertyOrder
+        public int? PropertyOrder
         {
-            get { return this.propertyOrder; }
+            get { return _propertyOrder; }
         }
 
         /// <summary>
@@ -202,7 +202,7 @@
         /// </summary>
         public override Type PropertyType
         {
-            get { return this.descriptor.PropertyType; }
+            get { return _descriptor.PropertyType; }
         }
 
         /// <summary>
@@ -213,7 +213,7 @@
         /// </param>
         public override void ResetValue(object component)
         {
-            this.descriptor.ResetValue(component);
+            _descriptor.ResetValue(component);
         }
 
         /// <summary>
@@ -227,12 +227,11 @@
         /// </param>
         public override void SetValue(object component, object value)
         {
-            this.descriptor.SetValue(component, value);
+            _descriptor.SetValue(component, value);
         }
 
         /// <summary>
-        /// Determines a value indicating whether the value of this property needs to be
-        /// persisted.
+        /// Determines a value indicating whether the value of this property needs to be persisted.
         /// </summary>
         /// <param name="component">
         /// The component with the property to be examined for persistence.
@@ -240,7 +239,7 @@
         /// <returns>true if the property should be persisted; otherwise, false.</returns>
         public override bool ShouldSerializeValue(object component)
         {
-            return this.descriptor.ShouldSerializeValue(component);
+            return _descriptor.ShouldSerializeValue(component);
         }
 
         #region Fluent interface
@@ -251,54 +250,54 @@
         /// <param name="active">
         /// The value that determines whether the dynamic property descriptor is active.
         /// </param>
-        /// <returns>This DynamicPropertyDescriptor instance.</returns>
+        /// <returns>This <see cref="DynamicPropertyDescriptor"/> instance.</returns>
         public DynamicPropertyDescriptor SetActive(bool active)
         {
-            this.active = active;
+            _active = active;
             return this;
         }
 
         /// <summary>
-        /// Sets the override for the Category property.
+        /// Sets the override for the <see cref="Category"/> property.
         /// </summary>
-        /// <param name="category">The new Category value.</param>
-        /// <returns>This DynamicPropertyDescriptor instance.</returns>
+        /// <param name="category">The new value for the <see cref="Category"/> property.</param>
+        /// <returns>This <see cref="DynamicPropertyDescriptor"/> instance.</returns>
         public DynamicPropertyDescriptor SetCategory(string category)
         {
-            this.categoryOverride = category;
+            _categoryOverride = category;
             return this;
         }
 
         /// <summary>
-        /// Sets the override for the Converter property.
+        /// Sets the override for the <see cref="Converter"/> property.
         /// </summary>
-        /// <param name="converter">The new Converter value.</param>
-        /// <returns>This DynamicPropertyDescriptor instance.</returns>
+        /// <param name="converter">The new value for the <see cref="Converter"/> property.</param>
+        /// <returns>This <see cref="DynamicPropertyDescriptor"/> instance.</returns>
         public DynamicPropertyDescriptor SetConverter(TypeConverter converter)
         {
-            this.converterOverride = converter;
+            _converterOverride = converter;
             return this;
         }
 
         /// <summary>
-        /// Sets the override for the Description property.
+        /// Sets the override for the <see cref="Description"/> property.
         /// </summary>
-        /// <param name="description">The new Description value.</param>
-        /// <returns>This DynamicPropertyDescriptor instance.</returns>
+        /// <param name="description">The new value for the <see cref="Description"/> property.</param>
+        /// <returns>This <see cref="DynamicPropertyDescriptor"/> instance.</returns>
         public DynamicPropertyDescriptor SetDescription(string description)
         {
-            this.descriptionOverride = description;
+            _descriptionOverride = description;
             return this;
         }
 
         /// <summary>
-        /// Sets the override for the DisplayName property.
+        /// Sets the override for the <see cref="DisplayName"/> property.
         /// </summary>
-        /// <param name="displayName">The new DisplayName value.</param>
-        /// <returns>This DynamicPropertyDescriptor instance.</returns>
+        /// <param name="displayName">The new value for the <see cref="DisplayName"/> property.</param>
+        /// <returns>This <see cref="DynamicPropertyDescriptor"/> instance.</returns>
         public DynamicPropertyDescriptor SetDisplayName(string displayName)
         {
-            this.displayNameOverride = displayName;
+            _displayNameOverride = displayName;
             return this;
         }
 
@@ -312,27 +311,27 @@
         /// <param name="editor">
         /// An instance of the requested editor type.
         /// </param>
-        /// <returns>This DynamicPropertyDescriptor instance.</returns>
+        /// <returns>This <see cref="DynamicPropertyDescriptor"/> instance.</returns>
         public DynamicPropertyDescriptor SetEditor(Type editorBaseType, object editor)
         {
             if (editorBaseType != null)
             {
-                if (this.editorDictionary.ContainsKey(editorBaseType))
+                if (_editorDictionary.ContainsKey(editorBaseType))
                 {
                     if (editor == null)
                     {
-                        this.editorDictionary.Remove(editorBaseType);
+                        _editorDictionary.Remove(editorBaseType);
                     }
                     else
                     {
-                        this.editorDictionary[editorBaseType] = editor;
+                        _editorDictionary[editorBaseType] = editor;
                     }
                 }
                 else
                 {
                     if (editor != null)
                     {
-                        this.editorDictionary.Add(editorBaseType, editor);
+                        _editorDictionary.Add(editorBaseType, editor);
                     }
                 }
             }
@@ -344,21 +343,21 @@
         /// Sets the order in which this property will be retrieved from its type descriptor.
         /// </summary>
         /// <param name="propertyOrder">The order in which this property will be retrieved.</param>
-        /// <returns>This DynamicPropertyDescriptor instance.</returns>
-        public DynamicPropertyDescriptor SetPropertyOrder(Nullable<int> propertyOrder)
+        /// <returns>This <see cref="DynamicPropertyDescriptor"/> instance.</returns>
+        public DynamicPropertyDescriptor SetPropertyOrder(int? propertyOrder)
         {
-            this.propertyOrder = propertyOrder;
+            _propertyOrder = propertyOrder;
             return this;
         }
 
         /// <summary>
-        /// Sets the override for the IsReadOnly property.
+        /// Sets the override for the <see cref="IsReadOnly"/> property.
         /// </summary>
-        /// <param name="readOnly">The new IsReadOnly value.</param>
-        /// <returns>This DynamicPropertyDescriptor instance.</returns>
-        public DynamicPropertyDescriptor SetReadOnly(Nullable<bool> readOnly)
+        /// <param name="readOnly">The new value for the <see cref="IsReadOnly"/> property.</param>
+        /// <returns>This <see cref="DynamicPropertyDescriptor"/> instance.</returns>
+        public DynamicPropertyDescriptor SetReadOnly(bool? readOnly)
         {
-            this.isReadOnlyOverride = readOnly;
+            _isReadOnlyOverride = readOnly;
             return this;
         }
 

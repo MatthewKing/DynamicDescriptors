@@ -1,7 +1,7 @@
-﻿namespace DynamicDescriptors
-{
-    using System;
+﻿using System;
 
+namespace DynamicDescriptors
+{
     /// <summary>
     /// Provides internal precondition helper methods.
     /// </summary>
