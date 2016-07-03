@@ -65,7 +65,7 @@ namespace DynamicDescriptors
         /// <returns>An object that represents the owner of the specified property.</returns>
         public override object GetPropertyOwner(PropertyDescriptor pd)
         {
-            return _data;
+            return this;
         }
 
         /// <summary>
