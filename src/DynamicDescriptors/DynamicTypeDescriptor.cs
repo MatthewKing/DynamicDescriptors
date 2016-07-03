@@ -1,39 +1,39 @@
-﻿namespace DynamicDescriptors
-{
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Linq;
-    using System.Linq.Expressions;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Linq.Expressions;
 
+namespace DynamicDescriptors
+{
     /// <summary>
-    /// A runtime-customizable implementation of ICustomTypeDescriptor.
+    /// A runtime-customizable implementation of <see cref="ICustomTypeDescriptor"/>.
     /// </summary>
     public sealed class DynamicTypeDescriptor : CustomTypeDescriptor, ICustomTypeDescriptor
     {
         /// <summary>
         /// A list containing the properties associated with this type descriptor.
         /// </summary>
-        private readonly IList<DynamicPropertyDescriptor> dynamicProperties;
+        private readonly IList<DynamicPropertyDescriptor> _dynamicProperties;
 
         /// <summary>
         /// Comparer to use when sorting a list of dynamic property descriptors.
         /// </summary>
-        private readonly IComparer<DynamicPropertyDescriptor> comparer;
+        private readonly IComparer<DynamicPropertyDescriptor> _comparer;
 
         /// <summary>
-        /// Initializes a new instance of the DynamicTypeDescriptor class.
+        /// Initializes a new instance of the <see cref="DynamicTypeDescriptor"/> class.
         /// </summary>
         /// <param name="parent">The parent custom type descriptor.</param>
         public DynamicTypeDescriptor(ICustomTypeDescriptor parent)
-            : base(Preconditions.CheckNotNull(parent, "parent"))
+            : base(Preconditions.CheckNotNull(parent, nameof(parent)))
         {
-            this.dynamicProperties = new List<DynamicPropertyDescriptor>();
-            this.comparer = new DynamicPropertyDescriptorComparer();
+            _dynamicProperties = new List<DynamicPropertyDescriptor>();
+            _comparer = new DynamicPropertyDescriptorComparer();
 
             foreach (PropertyDescriptor propertyDescriptor in base.GetProperties())
             {
-                this.dynamicProperties.Add(new DynamicPropertyDescriptor(propertyDescriptor));
+                _dynamicProperties.Add(new DynamicPropertyDescriptor(propertyDescriptor));
             }
         }
 
@@ -42,12 +42,12 @@
         /// descriptor.
         /// </summary>
         /// <returns>
-        /// A PropertyDescriptorCollection containing the property descriptions for the object
-        /// represented by this type descriptor.
+        /// A <see cref="PropertyDescriptorCollection"/> containing the property descriptions
+        /// for the object represented by this type descriptor.
         /// </returns>
         public override PropertyDescriptorCollection GetProperties()
         {
-            return this.GetProperties(null);
+            return GetProperties(null);
         }
 
         /// <summary>
@@ -58,14 +58,14 @@
         /// An array of attributes to use as a filter. This can be null.
         /// </param>
         /// <returns>
-        /// A PropertyDescriptorCollection containing the property descriptions for the object
-        /// represented by this type descriptor.
+        /// A <see cref="PropertyDescriptorCollection"/> containing the property descriptions
+        /// for the object represented by this type descriptor.
         /// </returns>
         public override PropertyDescriptorCollection GetProperties(Attribute[] attributes)
         {
             List<DynamicPropertyDescriptor> properties = new List<DynamicPropertyDescriptor>();
 
-            foreach (DynamicPropertyDescriptor property in this.dynamicProperties)
+            foreach (DynamicPropertyDescriptor property in _dynamicProperties)
             {
                 if (attributes == null || property.Attributes.Contains(attributes))
                 {
@@ -76,7 +76,7 @@
                 }
             }
 
-            properties.Sort(this.comparer);
+            properties.Sort(_comparer);
 
             return new PropertyDescriptorCollection(properties.ToArray());
         }
@@ -92,7 +92,7 @@
         /// </returns>
         public DynamicPropertyDescriptor GetDynamicProperty(string propertyName)
         {
-            foreach (DynamicPropertyDescriptor property in this.dynamicProperties)
+            foreach (DynamicPropertyDescriptor property in _dynamicProperties)
             {
                 if (String.Equals(property.Name, propertyName))
                 {
@@ -117,11 +117,10 @@
         /// The specified dynamic property descriptor for the object represented by this type
         /// descriptor.
         /// </returns>
-        public DynamicPropertyDescriptor GetDynamicProperty<TSource, TProperty>(
-            Expression<Func<TSource, TProperty>> propertyExpression)
+        public DynamicPropertyDescriptor GetDynamicProperty<TSource, TProperty>(Expression<Func<TSource, TProperty>> propertyExpression)
         {
             string propertyName = Reflect.GetPropertyName(propertyExpression);
-            return this.GetDynamicProperty(propertyName);
+            return GetDynamicProperty(propertyName);
         }
 
         /// <summary>
@@ -136,7 +135,7 @@
         {
             // This should return all dynamic properties, even those that are inactive.
 
-            return this.dynamicProperties
+            return _dynamicProperties
                 .OrderBy(o => o.PropertyOrder ?? Int32.MaxValue)
                 .ToArray();
         }

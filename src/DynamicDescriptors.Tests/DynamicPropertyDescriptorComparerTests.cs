@@ -1,7 +1,7 @@
-﻿namespace DynamicDescriptors.Tests
-{
-    using NUnit.Framework;
+﻿using NUnit.Framework;
 
+namespace DynamicDescriptors.Tests
+{
     [TestFixture]
     internal sealed class DynamicPropertyDescriptorComparerTests
     {

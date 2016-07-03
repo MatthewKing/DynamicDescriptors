@@ -1,9 +1,9 @@
-﻿namespace DynamicDescriptors.Tests
-{
-    using System;
-    using System.ComponentModel;
-    using NUnit.Framework;
+﻿using System;
+using System.ComponentModel;
+using NUnit.Framework;
 
+namespace DynamicDescriptors.Tests
+{
     [TestFixture]
     internal sealed class DynamicPropertyDescriptorTests
     {

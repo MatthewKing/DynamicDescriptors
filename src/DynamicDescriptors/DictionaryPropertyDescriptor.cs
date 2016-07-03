@@ -1,58 +1,51 @@
-﻿namespace DynamicDescriptors
-{
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 
+namespace DynamicDescriptors
+{
     /// <summary>
-    /// A dictionary-backed implementation of PropertyDescription.
+    /// A dictionary-backed implementation of <see cref="PropertyDescriptor"/>.
     /// </summary>
     internal sealed class DictionaryPropertyDescriptor : PropertyDescriptor
     {
         /// <summary>
         /// A dictionary mapping property names to property values.
         /// </summary>
-        private readonly IDictionary<string, object> data;
+        private readonly IDictionary<string, object> _data;
 
         /// <summary>
         /// The name of the property.
         /// </summary>
-        private readonly string propertyName;
+        private readonly string _propertyName;
 
         /// <summary>
         /// The type of the property.
         /// </summary>
-        private readonly Type propertyType;
+        private readonly Type _propertyType;
 
         /// <summary>
-        /// Initializes a new instance of the DictionaryPropertyDescriptor class.
+        /// Initializes a new instance of the <see cref="DictionaryPropertyDescriptor"/> class.
         /// </summary>
         /// <param name="data">The dictionary that backs this property descriptor.</param>
         /// <param name="propertyName">The name of the property.</param>
         /// <param name="propertyType">The type of the property.</param>
-        public DictionaryPropertyDescriptor(
-            IDictionary<string, object> data,
-            string propertyName,
-            Type propertyType)
-            : base(Preconditions.CheckNotNullOrEmpty(propertyName, "propertyName"), null)
+        public DictionaryPropertyDescriptor(IDictionary<string, object> data, string propertyName, Type propertyType)
+            : base(Preconditions.CheckNotNullOrEmpty(propertyName, nameof(propertyName)), null)
         {
             if (data == null)
             {
-                throw new ArgumentNullException(
-                    "data",
-                    "data should not be null.");
+                throw new ArgumentNullException("data", "data should not be null.");
             }
 
             if (propertyType == null)
             {
-                throw new ArgumentNullException(
-                    "propertyType",
-                    "propertyType should not be null.");
+                throw new ArgumentNullException("propertyType", "propertyType should not be null.");
             }
 
-            this.data = data;
-            this.propertyName = propertyName;
-            this.propertyType = propertyType;
+            _data = data;
+            _propertyName = propertyName;
+            _propertyType = propertyType;
         }
 
         /// <summary>
@@ -82,7 +75,7 @@
         /// <returns>The value of a property for a given component.</returns>
         public override object GetValue(object component)
         {
-            return this.data[this.propertyName];
+            return _data[_propertyName];
         }
 
         /// <summary>
@@ -98,7 +91,7 @@
         /// </summary>
         public override Type PropertyType
         {
-            get { return this.propertyType; }
+            get { return _propertyType; }
         }
 
         /// <summary>
@@ -109,7 +102,7 @@
         /// </param>
         public override void ResetValue(object component)
         {
-            this.data[this.propertyName] = null;
+            _data[_propertyName] = null;
         }
 
         /// <summary>
@@ -123,7 +116,7 @@
         /// </param>
         public override void SetValue(object component, object value)
         {
-            this.data[this.propertyName] = value;
+            _data[_propertyName] = value;
         }
 
         /// <summary>

@@ -1,9 +1,9 @@
-﻿namespace DynamicDescriptors.Tests
-{
-    using System;
-    using System.Collections.Generic;
-    using NUnit.Framework;
+﻿using System;
+using System.Collections.Generic;
+using NUnit.Framework;
 
+namespace DynamicDescriptors.Tests
+{
     [TestFixture]
     internal sealed class DictionaryPropertyDescriptorTests
     {
