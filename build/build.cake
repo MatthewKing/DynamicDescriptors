@@ -1,8 +1,9 @@
 var target = Argument("target", "Finalize");
 var configuration = Argument("configuration", "Release");
-var workingDir = Directory("./temp").Path.MakeAbsolute(Context.Environment);
-var outputDir = Directory("./output").Path.MakeAbsolute(Context.Environment);
-var solutionFile = GetFiles("../*.sln").Single();
+var sourceDir = Directory("../src/DynamicDescriptors");
+var workingDir = Directory("./temp");
+var outputDir = Directory("./output");
+var solutionFile = File("../DynamicDescriptors.sln");
 
 Task("Clean")
     .Does(() =>
@@ -25,7 +26,7 @@ Task("Build")
         MSBuild(solutionFile, settings =>
         {
             settings.SetConfiguration(configuration);
-            settings.WithProperty("OutputPath", workingDir.FullPath);
+            settings.WithProperty("OutputPath", MakeAbsolute(workingDir).FullPath);
         });
     });
 
@@ -33,18 +34,18 @@ Task("NuGetPack")
     .IsDependentOn("Build")
     .Does(() =>
     {
-        var assemblyInfoFile = File("../src/DynamicDescriptors/Properties/AssemblyInfo.cs");
+        var assemblyInfoFile = sourceDir + File("./Properties/AssemblyInfo.cs");
         var assemblyInfo = ParseAssemblyInfo(assemblyInfoFile);
 
         var nuspec = File("./DynamicDescriptors.nuspec");
 
         var settings = new NuGetPackSettings();
-        settings.OutputDirectory = outputDir.FullPath;
+        settings.OutputDirectory = MakeAbsolute(outputDir).FullPath;
         settings.Version = assemblyInfo.AssemblyInformationalVersion;
         settings.Files = new[]
         {
-            new NuSpecContent() { Source = workingDir.CombineWithFilePath("DynamicDescriptors.dll").FullPath, Target = "lib/net40" },
-            new NuSpecContent() { Source = workingDir.CombineWithFilePath("DynamicDescriptors.xml").FullPath, Target = "lib/net40" },
+            new NuSpecContent() { Source = workingDir + File("DynamicDescriptors.dll"), Target = "lib/net40" },
+            new NuSpecContent() { Source = workingDir + File("DynamicDescriptors.xml"), Target = "lib/net40" },
         };
 
         NuGetPack(nuspec, settings);
