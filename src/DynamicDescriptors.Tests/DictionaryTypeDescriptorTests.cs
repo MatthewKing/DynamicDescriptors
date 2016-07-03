@@ -23,16 +23,13 @@ namespace DynamicDescriptors.Tests
         }
 
         [Test]
-        public void GetPropertyOwner_ReturnsDataDictionary()
+        public void GetPropertyOwner_ReturnsTypeDescriptor()
         {
             IDictionary<string, object> data = new Dictionary<string, object>();
-
             DictionaryTypeDescriptor typeDescriptor = new DictionaryTypeDescriptor(data);
-
-            // We don't even care which PropertyDescriptor is passed in...
             PropertyDescriptor propertyDescriptor = new MockPropertyDescriptor();
 
-            Assert.That(typeDescriptor.GetPropertyOwner(propertyDescriptor), Is.EqualTo(data));
+            Assert.That(typeDescriptor.GetPropertyOwner(propertyDescriptor), Is.EqualTo(typeDescriptor));
         }
 
         [Test]
