@@ -298,5 +298,43 @@ namespace DynamicDescriptors.Tests
             Assert.That(properties[2].Name, Is.EqualTo("Property3"));
             Assert.That(properties[3].Name, Is.EqualTo("Property4"));
         }
+
+        [Test]
+        public void PropertySet_RaisesPropertyChangedEvent()
+        {
+            string propertyChanged = null;
+
+            var instance = new ExampleType();
+            var descriptor = DynamicDescriptor.CreateFromInstance(instance);
+            descriptor.PropertyChanged += (s, e) =>
+            {
+                propertyChanged = e.PropertyName;
+            };
+
+            var property = descriptor.GetDynamicProperty(nameof(instance.Property1));
+            property.SetValue(descriptor, "modified");
+
+            Assert.That(instance.Property1, Is.EqualTo("modified"));
+            Assert.That(propertyChanged, Is.EqualTo("Property1"));
+        }
+
+        [Test]
+        public void PropertyReset_RaisesPropertyChangedEvent()
+        {
+            string propertyChanged = null;
+
+            var instance = new ExampleType();
+            var descriptor = DynamicDescriptor.CreateFromInstance(instance);
+            descriptor.PropertyChanged += (s, e) =>
+            {
+                propertyChanged = e.PropertyName;
+            };
+
+            var property = descriptor.GetDynamicProperty(nameof(instance.Property1));
+            property.ResetValue(descriptor);
+
+            Assert.That(instance.Property1, Is.EqualTo(null));
+            Assert.That(propertyChanged, Is.EqualTo("Property1"));
+        }
     }
 }
