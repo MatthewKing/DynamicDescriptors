@@ -7,8 +7,13 @@ namespace DynamicDescriptors
     /// <summary>
     /// A dictionary-backed implementation of <see cref="ICustomTypeDescriptor"/>.
     /// </summary>
-    internal sealed class DictionaryTypeDescriptor : CustomTypeDescriptor, ICustomTypeDescriptor
+    internal sealed class DictionaryTypeDescriptor : CustomTypeDescriptor, ICustomTypeDescriptor, INotifyPropertyChanged
     {
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
         /// <summary>
         /// A dictionary mapping property names to property values.
         /// </summary>
@@ -50,6 +55,7 @@ namespace DynamicDescriptors
                 }
 
                 DictionaryPropertyDescriptor propertyDescriptor = new DictionaryPropertyDescriptor(data, pair.Key, type);
+                propertyDescriptor.AddValueChanged(this, (s, e) => OnPropertyChanged(pair.Key));
 
                 _propertyDescriptors.Add(propertyDescriptor);
             }
@@ -95,6 +101,15 @@ namespace DynamicDescriptors
         public override PropertyDescriptorCollection GetProperties(Attribute[] attributes)
         {
             return new PropertyDescriptorCollection(_propertyDescriptors.ToArray());
+        }
+
+        /// <summary>
+        /// Raises the <see cref="PropertyChanged"/> event.
+        /// </summary>
+        /// <param name="propertyName">The name of the property that changed.</param>
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
