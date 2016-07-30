@@ -214,6 +214,7 @@ namespace DynamicDescriptors
         public override void ResetValue(object component)
         {
             _descriptor.ResetValue(component);
+            OnValueChanged(component, new EventArgs());
         }
 
         /// <summary>
@@ -228,6 +229,7 @@ namespace DynamicDescriptors
         public override void SetValue(object component, object value)
         {
             _descriptor.SetValue(component, value);
+            OnValueChanged(component, new EventArgs());
         }
 
         /// <summary>

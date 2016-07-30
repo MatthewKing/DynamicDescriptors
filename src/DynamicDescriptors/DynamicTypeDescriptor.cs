@@ -9,8 +9,13 @@ namespace DynamicDescriptors
     /// <summary>
     /// A runtime-customizable implementation of <see cref="ICustomTypeDescriptor"/>.
     /// </summary>
-    public sealed class DynamicTypeDescriptor : CustomTypeDescriptor, ICustomTypeDescriptor
+    public sealed class DynamicTypeDescriptor : CustomTypeDescriptor, ICustomTypeDescriptor, INotifyPropertyChanged
     {
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
         /// <summary>
         /// A list containing the properties associated with this type descriptor.
         /// </summary>
@@ -33,7 +38,10 @@ namespace DynamicDescriptors
 
             foreach (PropertyDescriptor propertyDescriptor in base.GetProperties())
             {
-                _dynamicProperties.Add(new DynamicPropertyDescriptor(propertyDescriptor));
+                DynamicPropertyDescriptor dynamicPropertyDescriptor = new DynamicPropertyDescriptor(propertyDescriptor);
+                dynamicPropertyDescriptor.AddValueChanged(this, (s, e) => OnPropertyChanged(propertyDescriptor.Name));
+
+                _dynamicProperties.Add(dynamicPropertyDescriptor);
             }
         }
 
@@ -138,6 +146,15 @@ namespace DynamicDescriptors
             return _dynamicProperties
                 .OrderBy(o => o.PropertyOrder ?? Int32.MaxValue)
                 .ToArray();
+        }
+
+        /// <summary>
+        /// Raises the <see cref="PropertyChanged"/> event.
+        /// </summary>
+        /// <param name="propertyName">The name of the property that changed.</param>
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
