@@ -103,6 +103,7 @@ namespace DynamicDescriptors
         public override void ResetValue(object component)
         {
             _data[_propertyName] = null;
+            OnValueChanged(component, new EventArgs());
         }
 
         /// <summary>
@@ -117,6 +118,7 @@ namespace DynamicDescriptors
         public override void SetValue(object component, object value)
         {
             _data[_propertyName] = value;
+            OnValueChanged(component, new EventArgs());
         }
 
         /// <summary>
