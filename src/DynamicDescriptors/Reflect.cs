@@ -76,12 +76,6 @@ namespace DynamicDescriptors
                 throw new ArgumentException(message);
             }
 
-            if (sourceType != propertyInfo.ReflectedType && !sourceType.IsSubclassOf(propertyInfo.ReflectedType))
-            {
-                string message = $"Expression '{propertyExpression}' refers to a property that is not from type {sourceType}.";
-                throw new ArgumentException(message);
-            }
-
             return propertyInfo;
         }
     }
