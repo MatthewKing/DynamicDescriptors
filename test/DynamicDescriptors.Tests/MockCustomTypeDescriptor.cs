@@ -47,7 +47,7 @@ namespace DynamicDescriptors.Tests
 
         public EventDescriptorCollection GetEvents()
         {
-            return this.GetEvents(null);
+            return GetEvents(null);
         }
 
         public PropertyDescriptorCollection GetProperties(Attribute[] attributes)
@@ -57,7 +57,7 @@ namespace DynamicDescriptors.Tests
 
         public PropertyDescriptorCollection GetProperties()
         {
-            return this.GetProperties(null);
+            return GetProperties(null);
         }
 
         public object GetPropertyOwner(PropertyDescriptor pd)

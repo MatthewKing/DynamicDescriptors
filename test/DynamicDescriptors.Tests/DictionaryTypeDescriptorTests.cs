@@ -1,88 +1,88 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using NUnit.Framework;
+using FluentAssertions;
+using Xunit;
 
 namespace DynamicDescriptors.Tests
 {
-    [TestFixture]
-    internal sealed class DictionaryTypeDescriptorTests
+    public sealed class DictionaryTypeDescriptorTests
     {
-        [Test]
+        [Fact]
         public void Constructor_DataDictionaryIsNull_ThrowsArgumentNullException()
         {
-            const string message = "data should not be null.";
+            const string message = "data should not be null.\r\nParameter name: data";
 
-            Assert.That(() => new DictionaryTypeDescriptor(null),
-                Throws.TypeOf<ArgumentNullException>()
-                      .And.Message.Contains(message));
+            Action act1 = () => new DictionaryTypeDescriptor(null);
+            act1.ShouldThrow<ArgumentNullException>().WithMessage(message);
 
-            Assert.That(() => new DictionaryTypeDescriptor(null, null),
-                Throws.TypeOf<ArgumentNullException>()
-                      .And.Message.Contains(message));
+            Action act2 = () => new DictionaryTypeDescriptor(null, null);
+            act2.ShouldThrow<ArgumentNullException>().WithMessage(message);
         }
 
-        [Test]
+        [Fact]
         public void GetPropertyOwner_ReturnsTypeDescriptor()
         {
-            IDictionary<string, object> data = new Dictionary<string, object>();
-            DictionaryTypeDescriptor typeDescriptor = new DictionaryTypeDescriptor(data);
-            PropertyDescriptor propertyDescriptor = new MockPropertyDescriptor();
+            var data = new Dictionary<string, object>();
+            var typeDescriptor = new DictionaryTypeDescriptor(data);
+            var propertyDescriptor = new MockPropertyDescriptor();
 
-            Assert.That(typeDescriptor.GetPropertyOwner(propertyDescriptor), Is.EqualTo(typeDescriptor));
+            typeDescriptor.GetPropertyOwner(propertyDescriptor).Should().Be(typeDescriptor);
         }
 
-        [Test]
+        [Fact]
         public void GetProperties_ReturnsPropertiesFromDataDictionary()
         {
-            IDictionary<string, object> data = new Dictionary<string, object>();
+            var data = new Dictionary<string, object>();
             data["Property1"] = "value1";
             data["Property2"] = 2;
 
-            DictionaryTypeDescriptor typeDescriptor = new DictionaryTypeDescriptor(data);
+            var typeDescriptor = new DictionaryTypeDescriptor(data);
 
-            PropertyDescriptorCollection properties = typeDescriptor.GetProperties();
-            Assert.That(properties[0].Name, Is.EqualTo("Property1"));
-            Assert.That(properties[1].Name, Is.EqualTo("Property2"));
+            var properties = typeDescriptor.GetProperties();
+
+            properties[0].Name.Should().Be("Property1");
+            properties[1].Name.Should().Be("Property2");
         }
 
-        [Test]
+        [Fact]
         public void GetProperties_TypeIncluded_UsesSpecifiedType()
         {
-            IDictionary<string, object> data = new Dictionary<string, object>();
+            var data = new Dictionary<string, object>();
             data["Property1"] = "value1";
             data["Property2"] = 2;
 
-            IDictionary<string, Type> types = new Dictionary<string, Type>();
+            var types = new Dictionary<string, Type>();
             types["Property1"] = typeof(string);
             types["Property2"] = typeof(int);
 
-            DictionaryTypeDescriptor typeDescriptor = new DictionaryTypeDescriptor(data, types);
+            var typeDescriptor = new DictionaryTypeDescriptor(data, types);
 
-            PropertyDescriptorCollection properties = typeDescriptor.GetProperties();
-            Assert.That(properties[0].Name, Is.EqualTo("Property1"));
-            Assert.That(properties[0].PropertyType, Is.EqualTo(typeof(string)));
-            Assert.That(properties[1].Name, Is.EqualTo("Property2"));
-            Assert.That(properties[1].PropertyType, Is.EqualTo(typeof(int)));
+            var properties = typeDescriptor.GetProperties();
+
+            properties[0].Name.Should().Be("Property1");
+            properties[0].PropertyType.Should().Be(typeof(string));
+            properties[1].Name.Should().Be("Property2");
+            properties[1].PropertyType.Should().Be(typeof(int));
         }
 
-        [Test]
+        [Fact]
         public void GetProperties_TypeOmitted_UsesObjectType()
         {
-            IDictionary<string, object> data = new Dictionary<string, object>();
+            var data = new Dictionary<string, object>();
             data["Property1"] = "value1";
             data["Property2"] = 2;
 
-            DictionaryTypeDescriptor typeDescriptor = new DictionaryTypeDescriptor(data);
+            var typeDescriptor = new DictionaryTypeDescriptor(data);
 
-            PropertyDescriptorCollection properties = typeDescriptor.GetProperties();
-            Assert.That(properties[0].Name, Is.EqualTo("Property1"));
-            Assert.That(properties[0].PropertyType, Is.EqualTo(typeof(object)));
-            Assert.That(properties[1].Name, Is.EqualTo("Property2"));
-            Assert.That(properties[1].PropertyType, Is.EqualTo(typeof(object)));
+            var properties = typeDescriptor.GetProperties();
+
+            properties[0].Name.Should().Be("Property1");
+            properties[0].PropertyType.Should().Be(typeof(object));
+            properties[1].Name.Should().Be("Property2");
+            properties[1].PropertyType.Should().Be(typeof(object));
         }
 
-        [Test]
+        [Fact]
         public void PropertySet_RaisesPropertyChangedEvent()
         {
             var data = new Dictionary<string, object>();
@@ -100,11 +100,11 @@ namespace DynamicDescriptors.Tests
             var properties = descriptor.GetProperties();
             properties[0].SetValue(descriptor, "modified");
 
-            Assert.That(data["Property1"], Is.EqualTo("modified"));
-            Assert.That(propertyChanged, Is.EqualTo("Property1"));
+            data["Property1"].Should().Be("modified");
+            propertyChanged.Should().Be("Property1");
         }
 
-        [Test]
+        [Fact]
         public void PropertyReset_RaisesPropertyChangedEvent()
         {
             var data = new Dictionary<string, object>();
@@ -122,8 +122,8 @@ namespace DynamicDescriptors.Tests
             var properties = descriptor.GetProperties();
             properties[0].ResetValue(descriptor);
 
-            Assert.That(data["Property1"], Is.EqualTo(null));
-            Assert.That(propertyChanged, Is.EqualTo("Property1"));
+            data["Property1"].Should().Be(null);
+            propertyChanged.Should().Be("Property1");
         }
     }
 }

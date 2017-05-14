@@ -1,122 +1,118 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using FluentAssertions;
+using Xunit;
 
 namespace DynamicDescriptors.Tests
 {
-    [TestFixture]
-    internal sealed class DictionaryPropertyDescriptorTests
+    public sealed class DictionaryPropertyDescriptorTests
     {
-        [Test]
+        [Fact]
         public void Constructor_DataIsNull_ThrowsArgumentNullException()
         {
             IDictionary<string, object> data = null;
             string propertyName = "propertyName";
             Type propertyType = typeof(object);
 
-            const string message = "data should not be null.";
-            Assert.That(() => new DictionaryPropertyDescriptor(data, propertyName, propertyType),
-                Throws.TypeOf<ArgumentNullException>()
-                      .And.Message.Contains(message));
+            Action act = () => new DictionaryPropertyDescriptor(data, propertyName, propertyType);
+
+            act.ShouldThrow<ArgumentNullException>().WithMessage("data should not be null.\r\nParameter name: data");
         }
 
-        [Test]
+        [Fact]
         public void Constructor_PropertyNameIsNull_ThrowsArgumentNullException()
         {
             IDictionary<string, object> data = new Dictionary<string, object>();
             string propertyName = null;
             Type propertyType = typeof(object);
 
-            const string message = "propertyName should not be null.";
-            Assert.That(() => new DictionaryPropertyDescriptor(data, propertyName, propertyType),
-                Throws.TypeOf<ArgumentNullException>()
-                      .And.Message.Contains(message));
+            Action act = () => new DictionaryPropertyDescriptor(data, propertyName, propertyType);
+
+            act.ShouldThrow<ArgumentNullException>().WithMessage("propertyName should not be null.\r\nParameter name: propertyName");
         }
 
-        [Test]
+        [Fact]
         public void Constructor_PropertyNameIsEmpty_ThrowsArgumentException()
         {
             IDictionary<string, object> data = new Dictionary<string, object>();
             string propertyName = String.Empty;
             Type propertyType = typeof(object);
 
-            const string message = "propertyName should not be an empty string.";
-            Assert.That(() => new DictionaryPropertyDescriptor(data, propertyName, propertyType),
-                Throws.TypeOf<ArgumentException>()
-                      .And.Message.Contains(message));
+            Action act = () => new DictionaryPropertyDescriptor(data, propertyName, propertyType);
+
+            act.ShouldThrow<ArgumentException>().WithMessage("propertyName should not be an empty string.\r\nParameter name: propertyName");
         }
 
-        [Test]
+        [Fact]
         public void Constructor_PropertyTypeIsNull_ThrowsArgumentNullException()
         {
             IDictionary<string, object> data = new Dictionary<string, object>();
             string propertyName = "propertyName";
             Type propertyType = null;
 
-            const string message = "propertyType should not be null.";
-            Assert.That(() => new DictionaryPropertyDescriptor(data, propertyName, propertyType),
-                Throws.TypeOf<ArgumentNullException>()
-                      .And.Message.Contains(message));
+            Action act = () => new DictionaryPropertyDescriptor(data, propertyName, propertyType);
+
+            act.ShouldThrow<ArgumentNullException>().WithMessage("propertyType should not be null.\r\nParameter name: propertyType");
         }
 
-        [Test]
+        [Fact]
         public void GetValue_ReturnsValueFromUnderlyingDictionary()
         {
-            IDictionary<string, object> data = new Dictionary<string, object>();
+            var data = new Dictionary<string, object>();
             data.Add("Property1", "Value1");
             data.Add("Property2", 2);
 
-            DictionaryPropertyDescriptor pd1 = new DictionaryPropertyDescriptor(data, "Property1", typeof(string));
-            Assert.That(pd1.GetValue(null), Is.EqualTo(data["Property1"]));
+            var pd1 = new DictionaryPropertyDescriptor(data, "Property1", typeof(string));
+            pd1.GetValue(null).Should().Be("Value1");
 
-            DictionaryPropertyDescriptor pd2 = new DictionaryPropertyDescriptor(data, "Property2", typeof(int));
-            Assert.That(pd2.GetValue(null), Is.EqualTo(data["Property2"]));
+            var pd2 = new DictionaryPropertyDescriptor(data, "Property2", typeof(int));
+            pd2.GetValue(null).Should().Be(2);
         }
 
-        [Test]
+        [Fact]
         public void SetValue_ChangesValueInUnderlyingDictionaryToSpecifiedValue()
         {
-            IDictionary<string, object> data = new Dictionary<string, object>();
+            var data = new Dictionary<string, object>();
             data.Add("Property1", "Value1");
             data.Add("Property2", 2);
 
-            DictionaryPropertyDescriptor pd1 = new DictionaryPropertyDescriptor(data, "Property1", typeof(string));
+            var pd1 = new DictionaryPropertyDescriptor(data, "Property1", typeof(string));
             pd1.SetValue(null, "Modified");
-            Assert.That(data["Property1"], Is.EqualTo("Modified"));
+            data["Property1"].Should().Be("Modified");
 
-            DictionaryPropertyDescriptor pd2 = new DictionaryPropertyDescriptor(data, "Property2", typeof(int));
+            var pd2 = new DictionaryPropertyDescriptor(data, "Property2", typeof(int));
             pd2.SetValue(null, 0);
-            Assert.That(data["Property2"], Is.EqualTo(0));
+            data["Property2"].Should().Be(0);
         }
 
-        [Test]
+        [Fact]
         public void ResetValue_ChangesValueInUnderlyingDictionaryToNull()
         {
-            IDictionary<string, object> data = new Dictionary<string, object>();
+            var data = new Dictionary<string, object>();
             data.Add("Property1", "Value1");
             data.Add("Property2", 2);
 
-            DictionaryPropertyDescriptor pd1 = new DictionaryPropertyDescriptor(data, "Property1", typeof(string));
+            var pd1 = new DictionaryPropertyDescriptor(data, "Property1", typeof(string));
             pd1.ResetValue(null);
-            Assert.That(data["Property1"], Is.Null);
+            data["Property1"].Should().BeNull();
 
-            DictionaryPropertyDescriptor pd2 = new DictionaryPropertyDescriptor(data, "Property2", typeof(int));
+            var pd2 = new DictionaryPropertyDescriptor(data, "Property2", typeof(int));
             pd2.ResetValue(null);
-            Assert.That(data["Property2"], Is.Null);
+            data["Property2"].Should().BeNull();
         }
 
-        [Test]
+        [Fact]
         public void PropertyType_ReturnsSpecifiedType()
         {
-            IDictionary<string, object> data = new Dictionary<string, object>();
+            var data = new Dictionary<string, object>();
             data.Add("Property1", "Value1");
             data.Add("Property2", 2);
 
-            DictionaryPropertyDescriptor pd1 = new DictionaryPropertyDescriptor(data, "Property1", typeof(string));
-            Assert.That(pd1.PropertyType, Is.EqualTo(typeof(string)));
+            var pd1 = new DictionaryPropertyDescriptor(data, "Property1", typeof(string));
+            pd1.PropertyType.Should().Be(typeof(string));
 
-            DictionaryPropertyDescriptor pd2 = new DictionaryPropertyDescriptor(data, "Property2", typeof(int));
-            Assert.That(pd2.PropertyType, Is.EqualTo(typeof(int)));
+            var pd2 = new DictionaryPropertyDescriptor(data, "Property2", typeof(int));
+            pd2.PropertyType.Should().Be(typeof(int));
         }
     }
 }

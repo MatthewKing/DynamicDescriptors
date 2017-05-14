@@ -1,80 +1,75 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using NUnit.Framework;
+using FluentAssertions;
+using Xunit;
 
 namespace DynamicDescriptors.Tests
 {
-    [TestFixture]
-    internal sealed class DynamicDescriptorTests
+    public sealed class DynamicDescriptorTests
     {
-        [Test]
+        [Fact]
         public void CreateFromInstance_InstanceIsNull_ThrowsArgumentNullException()
         {
-            const string message = "instance should not be null.";
-            Assert.That(() => DynamicDescriptor.CreateFromInstance<object>(null),
-                Throws.TypeOf<ArgumentNullException>()
-                      .And.Message.Contains(message));
+            const string message = "instance should not be null.\r\nParameter name: instance";
+            Action act = () => DynamicDescriptor.CreateFromInstance<object>(null);
+            act.ShouldThrow<ArgumentNullException>().WithMessage(message);
         }
 
-        [Test]
+        [Fact]
         public void CreateFromInstance_InstanceIsNotNull_ReturnsNewDynamicTypeDescriptorInstance()
         {
-            object instance = new object();
-            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromInstance(instance);
+            var instance = new object();
+            var descriptor = DynamicDescriptor.CreateFromInstance(instance);
 
-            Assert.That(descriptor, Is.Not.Null);
+            descriptor.Should().NotBeNull();
         }
 
-        [Test]
+        [Fact]
         public void CreateFromDescriptor_DescriptorIsNull_ThrowsArgumentNullException()
         {
-            const string message = "instance should not be null.";
-            Assert.That(() => DynamicDescriptor.CreateFromDescriptor(null),
-                Throws.TypeOf<ArgumentNullException>()
-                      .And.Message.Contains(message));
+            const string message = "instance should not be null.\r\nParameter name: instance";
+            Action act = () => DynamicDescriptor.CreateFromDescriptor(null);
+            act.ShouldThrow<ArgumentNullException>().WithMessage(message);
         }
 
-        [Test]
+        [Fact]
         public void CreateFromDescriptor_DescriptorIsNotNull_ReturnsNewDynamicTypeDescriptorInstance()
         {
-            ICustomTypeDescriptor baseDescriptor = new MockCustomTypeDescriptor();
-            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromDescriptor(baseDescriptor);
+            var baseDescriptor = new MockCustomTypeDescriptor();
+            var descriptor = DynamicDescriptor.CreateFromDescriptor(baseDescriptor);
 
-            Assert.That(descriptor, Is.Not.Null);
+            descriptor.Should().NotBeNull();
         }
 
-        [Test]
+        [Fact]
         public void CreateFromDictionary_DataDictionaryIsNull_ThrowsArgumentNullException()
         {
-            const string message = "data should not be null.";
+            const string message = "data should not be null.\r\nParameter name: data";
 
-            Assert.That(() => DynamicDescriptor.CreateFromDictionary(null),
-                Throws.TypeOf<ArgumentNullException>()
-                      .And.Message.Contains(message));
+            Action act1 = () => DynamicDescriptor.CreateFromDictionary(null);
+            act1.ShouldThrow<ArgumentNullException>().WithMessage(message);
 
-            Assert.That(() => DynamicDescriptor.CreateFromDictionary(null, null),
-                Throws.TypeOf<ArgumentNullException>()
-                      .And.Message.Contains(message));
+            Action act2 = () => DynamicDescriptor.CreateFromDictionary(null, null);
+            act2.ShouldThrow<ArgumentNullException>().WithMessage(message);
         }
 
-        [Test]
+        [Fact]
         public void CreateFromDictionary_DataDictionaryIsNotNull_TypeDictionaryNotPresent_ReturnsNewDynamicTypeDescriptorInstance()
         {
-            IDictionary<string, object> data = new Dictionary<string, object>();
-            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromDictionary(data);
+            var data = new Dictionary<string, object>();
+            var descriptor = DynamicDescriptor.CreateFromDictionary(data);
 
-            Assert.That(descriptor, Is.Not.Null);
+            descriptor.Should().NotBeNull();
         }
 
-        [Test]
+        [Fact]
         public void CreateFromDictionary_DataDictionaryIsNotNull_TypeDictionaryPresent_ReturnsNewDynamicTypeDescriptorInstance()
         {
-            IDictionary<string, object> data = new Dictionary<string, object>();
-            IDictionary<string, Type> types = new Dictionary<string, Type>();
-            DynamicTypeDescriptor descriptor = DynamicDescriptor.CreateFromDictionary(data, types);
+            var data = new Dictionary<string, object>();
+            var types = new Dictionary<string, Type>();
+            var descriptor = DynamicDescriptor.CreateFromDictionary(data, types);
 
-            Assert.That(descriptor, Is.Not.Null);
+            descriptor.Should().NotBeNull();
         }
     }
 }
