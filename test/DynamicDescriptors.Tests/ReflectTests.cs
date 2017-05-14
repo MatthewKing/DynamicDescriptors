@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using NUnit.Framework;
 
 namespace DynamicDescriptors.Tests
@@ -62,7 +63,7 @@ namespace DynamicDescriptors.Tests
         public void GetPropertyInfo_ReturnsCorrectValue()
         {
             var value = Reflect.GetPropertyInfo<ExampleClass, string>(o => o.Property);
-            var expected = typeof(ExampleClass).GetProperty("Property");
+            var expected = typeof(ExampleClass).GetTypeInfo().GetProperty("Property");
 
             Assert.That(value, Is.EqualTo(expected));
         }
