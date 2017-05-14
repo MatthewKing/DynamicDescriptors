@@ -25,8 +25,8 @@ namespace DynamicDescriptors.Tests
         public bool GetEditorCalled { get; private set; }
         public override object GetEditor(Type editorBaseType)
         {
-            this.GetEditorCalled = true;
-            this.GetEditorEditorBaseType = editorBaseType;
+            GetEditorCalled = true;
+            GetEditorEditorBaseType = editorBaseType;
             return this.GetEditorResult;
         }
 
@@ -35,8 +35,8 @@ namespace DynamicDescriptors.Tests
         public bool GetValueCalled { get; private set; }
         public override object GetValue(object component)
         {
-            this.GetValueCalled = true;
-            this.GetValueComponent = component;
+            GetValueCalled = true;
+            GetValueComponent = component;
             return this.GetValueResult;
         }
 
@@ -45,17 +45,17 @@ namespace DynamicDescriptors.Tests
         public bool SetValueCalled { get; private set; }
         public override void SetValue(object component, object value)
         {
-            this.SetValueCalled = true;
-            this.SetValueComponent = component;
-            this.SetValueValue = value;
+            SetValueCalled = true;
+            SetValueComponent = component;
+            SetValueValue = value;
         }
 
         public object ResetValueComponent { get; private set; }
         public bool ResetValueCalled { get; private set; }
         public override void ResetValue(object component)
         {
-            this.ResetValueCalled = true;
-            this.ResetValueComponent = component;
+            ResetValueCalled = true;
+            ResetValueComponent = component;
         }
 
         public bool CanResetValueResult { get; set; }
@@ -63,9 +63,9 @@ namespace DynamicDescriptors.Tests
         public bool CanResetValueCalled { get; private set; }
         public override bool CanResetValue(object component)
         {
-            this.CanResetValueCalled = true;
-            this.CanResetValueComponent = component;
-            return this.CanResetValueResult;
+            CanResetValueCalled = true;
+            CanResetValueComponent = component;
+            return CanResetValueResult;
         }
 
         public bool ShouldSerializeValueResult { get; set; }
@@ -73,21 +73,21 @@ namespace DynamicDescriptors.Tests
         public bool ShouldSerializeValueCalled { get; private set; }
         public override bool ShouldSerializeValue(object component)
         {
-            this.ShouldSerializeValueCalled = true;
-            this.ShouldSerializeValueComponent = component;
-            return this.ShouldSerializeValueResult;
+            ShouldSerializeValueCalled = true;
+            ShouldSerializeValueComponent = component;
+            return ShouldSerializeValueResult;
         }
 
         public string CategoryResult { get; set; }
-        public override string Category { get { return this.CategoryResult; } }
+        public override string Category { get { return CategoryResult; } }
 
         public TypeConverter ConverterResult { get; set; }
-        public override TypeConverter Converter { get { return this.ConverterResult; } }
+        public override TypeConverter Converter { get { return ConverterResult; } }
 
         public string DescriptionResult { get; set; }
-        public override string Description { get { return this.DescriptionResult; } }
+        public override string Description { get { return DescriptionResult; } }
 
         public string DisplayNameResult { get; set; }
-        public override string DisplayName { get { return this.DisplayNameResult; } }
+        public override string DisplayName { get { return DisplayNameResult; } }
     }
 }

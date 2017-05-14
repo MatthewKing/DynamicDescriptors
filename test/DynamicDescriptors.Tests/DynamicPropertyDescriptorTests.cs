@@ -1,296 +1,302 @@
 ﻿using System;
 using System.ComponentModel;
-using NUnit.Framework;
+using FluentAssertions;
+using Xunit;
 
 namespace DynamicDescriptors.Tests
 {
-    [TestFixture]
-    internal sealed class DynamicPropertyDescriptorTests
+    public sealed class DynamicPropertyDescriptorTests
     {
-        [Test]
+        [Fact]
         public void Constructor_DescriptorIsNull_ThrowsArgumentNullException()
         {
-            const string message = "descriptor should not be null.";
-            Assert.That(() => new DynamicPropertyDescriptor(null),
-                Throws.TypeOf<ArgumentNullException>()
-                      .And.Message.Contains(message));
+            const string message = "descriptor should not be null.\r\nParameter name: descriptor";
+            Action act = () => new DynamicPropertyDescriptor(null);
+            act.ShouldThrow<ArgumentNullException>().WithMessage(message);
         }
 
-        [Test]
+        [Fact]
         public void CanResetValue_ReturnsResultOfDescriptorCanResetValue()
         {
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var mockDescriptor = new MockPropertyDescriptor();
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
 
-            object component = new object();
+            var component = new object();
 
             mockDescriptor.CanResetValueResult = true;
-            Assert.That(dynamicDescriptor.CanResetValue(component), Is.True);
-            Assert.That(mockDescriptor.CanResetValueComponent, Is.EqualTo(component));
+            dynamicDescriptor.CanResetValue(component).Should().BeTrue();
+            mockDescriptor.CanResetValueComponent.Should().Be(component);
 
             mockDescriptor.CanResetValueResult = false;
-            Assert.That(dynamicDescriptor.CanResetValue(component), Is.False);
-            Assert.That(mockDescriptor.CanResetValueComponent, Is.EqualTo(component));
+            dynamicDescriptor.CanResetValue(component).Should().BeFalse();
+            mockDescriptor.CanResetValueComponent.Should().Be(component);
         }
 
-        [Test]
+        [Fact]
         public void ComponentType_ReturnsResultOfDescriptorComponentType()
         {
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var mockDescriptor = new MockPropertyDescriptor();
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
 
-            Type type = typeof(string);
+            var type = typeof(string);
             mockDescriptor.ComponentTypeResult = type;
-            Assert.That(dynamicDescriptor.ComponentType, Is.EqualTo(type));
+            dynamicDescriptor.ComponentType.Should().Be(type);
         }
 
-        [Test]
+        [Fact]
         public void GetValue_ReturnsResultOfDescriptorGetValue()
         {
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var mockDescriptor = new MockPropertyDescriptor();
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
 
-            object component = new object();
-            object result = new object();
+            var component = new object();
+            var result = new object();
 
             mockDescriptor.GetValueResult = result;
-            Assert.That(dynamicDescriptor.GetValue(component), Is.EqualTo(result));
-            Assert.That(mockDescriptor.GetValueComponent, Is.EqualTo(component));
+            dynamicDescriptor.GetValue(component).Should().Be(result);
+            mockDescriptor.GetValueComponent.Should().Be(component);
         }
 
-        [Test]
+        [Fact]
         public void PropertyType_ReturnsResultOfDescriptorPropertyType()
         {
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var mockDescriptor = new MockPropertyDescriptor();
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
 
-            Type type = typeof(string);
+            var type = typeof(string);
             mockDescriptor.PropertyTypeResult = type;
-            Assert.That(dynamicDescriptor.PropertyType, Is.EqualTo(type));
+            dynamicDescriptor.PropertyType.Should().Be(type);
         }
 
-        [Test]
+        [Fact]
         public void ResetValue_CallsDescriptorResetValue()
         {
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var mockDescriptor = new MockPropertyDescriptor();
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
 
-            object component = new object();
+            var component = new object();
             dynamicDescriptor.ResetValue(component);
-            Assert.That(mockDescriptor.ResetValueComponent, Is.EqualTo(component));
-            Assert.That(mockDescriptor.ResetValueCalled, Is.True);
+            mockDescriptor.ResetValueComponent.Should().Be(component);
+            mockDescriptor.ResetValueCalled.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public void SetValue_CallsDescriptorSetValue()
         {
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var mockDescriptor = new MockPropertyDescriptor();
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
 
-            object component = new object();
-            object value = new object();
+            var component = new object();
+            var value = new object();
             dynamicDescriptor.SetValue(component, value);
-            Assert.That(mockDescriptor.SetValueComponent, Is.EqualTo(component));
-            Assert.That(mockDescriptor.SetValueValue, Is.EqualTo(value));
-            Assert.That(mockDescriptor.SetValueCalled, Is.True);
+
+            mockDescriptor.SetValueComponent.Should().Be(component);
+            mockDescriptor.SetValueValue.Should().Be(value);
+            mockDescriptor.SetValueCalled.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public void ShouldSerializeValue_ReturnsResultOfDescriptorShouldSerializeValue()
         {
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var mockDescriptor = new MockPropertyDescriptor();
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
 
-            object component = new object();
+            var component = new object();
 
             mockDescriptor.ShouldSerializeValueResult = true;
-            Assert.That(dynamicDescriptor.ShouldSerializeValue(component), Is.True);
-            Assert.That(mockDescriptor.ShouldSerializeValueComponent, Is.EqualTo(component));
+            dynamicDescriptor.ShouldSerializeValue(component).Should().BeTrue();
+            mockDescriptor.ShouldSerializeValueComponent.Should().Be(component);
 
             mockDescriptor.ShouldSerializeValueResult = false;
-            Assert.That(dynamicDescriptor.ShouldSerializeValue(component), Is.False);
-            Assert.That(mockDescriptor.ShouldSerializeValueComponent, Is.EqualTo(component));
+            dynamicDescriptor.ShouldSerializeValue(component).Should().BeFalse();
+            mockDescriptor.ShouldSerializeValueComponent.Should().Be(component);
         }
 
-        [Test]
+        [Fact]
         public void Category_NoOverride_ReturnsDescriptorValue()
         {
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            var mockDescriptor = new MockPropertyDescriptor();
             mockDescriptor.CategoryResult = "Base";
 
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
 
-            Assert.That(dynamicDescriptor.Category, Is.EqualTo("Base"));
+            dynamicDescriptor.Category.Should().Be("Base");
         }
 
-        [Test]
+        [Fact]
         public void Category_Override_ReturnsOverrideValue()
         {
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            var mockDescriptor = new MockPropertyDescriptor();
             mockDescriptor.CategoryResult = "Base";
 
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
             dynamicDescriptor.SetCategory("Override");
 
-            Assert.That(dynamicDescriptor.Category, Is.EqualTo("Override"));
+            dynamicDescriptor.Category.Should().Be("Override");
         }
 
-        [Test]
+        [Fact]
         public void Converter_NoOverride_ReturnsDescriptorValue()
         {
-            TypeConverter converter = new TypeConverter();
+            var converter = new TypeConverter();
 
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            var mockDescriptor = new MockPropertyDescriptor();
             mockDescriptor.ConverterResult = converter;
 
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
 
-            Assert.That(dynamicDescriptor.Converter, Is.EqualTo(converter));
+            dynamicDescriptor.Converter.Should().Be(converter);
         }
 
-        [Test]
+        [Fact]
         public void Converter_Override_ReturnsOverrideValue()
         {
-            TypeConverter converterBase = new TypeConverter();
-            TypeConverter converterOverride = new TypeConverter();
+            var converterBase = new TypeConverter();
+            var converterOverride = new TypeConverter();
 
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            var mockDescriptor = new MockPropertyDescriptor();
             mockDescriptor.ConverterResult = converterBase;
 
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
             dynamicDescriptor.SetConverter(converterOverride);
 
-            Assert.That(dynamicDescriptor.Converter, Is.EqualTo(converterOverride));
+            dynamicDescriptor.Converter.Should().Be(converterOverride);
         }
 
-        [Test]
+        [Fact]
         public void Description_NoOverride_ReturnsDescriptorValue()
         {
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            var mockDescriptor = new MockPropertyDescriptor();
             mockDescriptor.DescriptionResult = "Base";
 
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
 
-            Assert.That(dynamicDescriptor.Description, Is.EqualTo("Base"));
+            dynamicDescriptor.Description.Should().Be("Base");
         }
 
-        [Test]
+        [Fact]
         public void Description_Override_ReturnsOverrideValue()
         {
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            var mockDescriptor = new MockPropertyDescriptor();
             mockDescriptor.DescriptionResult = "Base";
 
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
             dynamicDescriptor.SetDescription("Override");
 
-            Assert.That(dynamicDescriptor.Description, Is.EqualTo("Override"));
+            dynamicDescriptor.Description.Should().Be("Override");
         }
 
-        [Test]
+        [Fact]
         public void DisplayName_NoOverride_ReturnsDescriptorValue()
         {
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            var mockDescriptor = new MockPropertyDescriptor();
             mockDescriptor.DisplayNameResult = "Base";
 
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
 
-            Assert.That(dynamicDescriptor.DisplayName, Is.EqualTo("Base"));
+            dynamicDescriptor.DisplayName.Should().Be("Base");
         }
 
-        [Test]
+        [Fact]
         public void DisplayName_Override_ReturnsOverrideValue()
         {
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            var mockDescriptor = new MockPropertyDescriptor();
             mockDescriptor.DisplayNameResult = "Base";
 
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
             dynamicDescriptor.SetDisplayName("Override");
 
-            Assert.That(dynamicDescriptor.DisplayName, Is.EqualTo("Override"));
+            dynamicDescriptor.DisplayName.Should().Be("Override");
         }
 
-        [TestCase(true), TestCase(false)]
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
         public void IsReadOnly_NoOverride_ReturnsDescriptorValue(bool value)
         {
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            var mockDescriptor = new MockPropertyDescriptor();
             mockDescriptor.IsReadOnlyResult = value;
 
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
 
-            Assert.That(dynamicDescriptor.IsReadOnly, Is.EqualTo(value));
+            dynamicDescriptor.IsReadOnly.Should().Be(value);
         }
 
-        [TestCase(true, true), TestCase(true, false), TestCase(false, true), TestCase(false, false)]
+        [Theory]
+        [InlineData(true, true)]
+        [InlineData(true, false)]
+        [InlineData(false, true)]
+        [InlineData(false, false)]
         public void IsReadOnly_Override_ReturnsOverrideValue(bool descriptorValue, bool overrideValue)
         {
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            var mockDescriptor = new MockPropertyDescriptor();
             mockDescriptor.IsReadOnlyResult = descriptorValue;
 
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
             dynamicDescriptor.SetReadOnly(overrideValue);
 
-            Assert.That(dynamicDescriptor.IsReadOnly, Is.EqualTo(overrideValue));
+            dynamicDescriptor.IsReadOnly.Should().Be(overrideValue);
         }
 
-        [Test]
+        [Fact]
         public void GetEditor_NoOverride_ReturnsDescriptorValue()
         {
-            MockUITypeEditor baseEditor = new MockUITypeEditor();
+            var baseEditor = new MockUITypeEditor();
 
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            var mockDescriptor = new MockPropertyDescriptor();
             mockDescriptor.GetEditorResult = baseEditor;
 
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
 
-            Assert.That(dynamicDescriptor.GetEditor(typeof(MockUITypeEditor)), Is.EqualTo(baseEditor));
+            dynamicDescriptor.GetEditor(typeof(MockUITypeEditor)).Should().Be(baseEditor);
         }
 
-        [Test]
+        [Fact]
         public void GetEditor_Override_ReturnsOverrideValue()
         {
-            MockUITypeEditor baseEditor = new MockUITypeEditor();
-            MockUITypeEditor overrideEditor = new MockUITypeEditor();
+            var baseEditor = new MockUITypeEditor();
+            var overrideEditor = new MockUITypeEditor();
 
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            var mockDescriptor = new MockPropertyDescriptor();
             mockDescriptor.GetEditorResult = baseEditor;
 
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
             dynamicDescriptor.SetEditor(typeof(MockUITypeEditor), overrideEditor);
 
-            Assert.That(dynamicDescriptor.GetEditor(typeof(MockUITypeEditor)), Is.EqualTo(overrideEditor));
+            dynamicDescriptor.GetEditor(typeof(MockUITypeEditor)).Should().Be(overrideEditor);
         }
 
-        [Test]
+        [Fact]
         public void GetEditor_OverrideThenClear_ReturnsDescriptorValue()
         {
-            MockUITypeEditor baseEditor = new MockUITypeEditor();
-            MockUITypeEditor overrideEditor = new MockUITypeEditor();
+            var baseEditor = new MockUITypeEditor();
+            var overrideEditor = new MockUITypeEditor();
 
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            var mockDescriptor = new MockPropertyDescriptor();
             mockDescriptor.GetEditorResult = baseEditor;
 
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
             dynamicDescriptor.SetEditor(typeof(MockUITypeEditor), overrideEditor);
             dynamicDescriptor.SetEditor(typeof(MockUITypeEditor), null);
 
-            Assert.That(dynamicDescriptor.GetEditor(typeof(MockUITypeEditor)), Is.EqualTo(baseEditor));
+            dynamicDescriptor.GetEditor(typeof(MockUITypeEditor)).Should().Be(baseEditor);
         }
 
-        [Test]
+        [Fact]
         public void GetEditor_MultipleOverrides_ReturnsMostRecentOverrideValue()
         {
-            MockUITypeEditor baseEditor = new MockUITypeEditor();
-            MockUITypeEditor overrideEditor1 = new MockUITypeEditor();
-            MockUITypeEditor overrideEditor2 = new MockUITypeEditor();
+            var baseEditor = new MockUITypeEditor();
+            var overrideEditor1 = new MockUITypeEditor();
+            var overrideEditor2 = new MockUITypeEditor();
 
-            MockPropertyDescriptor mockDescriptor = new MockPropertyDescriptor();
+            var mockDescriptor = new MockPropertyDescriptor();
             mockDescriptor.GetEditorResult = baseEditor;
 
-            DynamicPropertyDescriptor dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
+            var dynamicDescriptor = new DynamicPropertyDescriptor(mockDescriptor);
             dynamicDescriptor.SetEditor(typeof(MockUITypeEditor), overrideEditor1);
             dynamicDescriptor.SetEditor(typeof(MockUITypeEditor), overrideEditor2);
 
-            Assert.That(dynamicDescriptor.GetEditor(typeof(MockUITypeEditor)), Is.EqualTo(overrideEditor2));
+            dynamicDescriptor.GetEditor(typeof(MockUITypeEditor)).Should().Be(overrideEditor2);
         }
     }
 }
