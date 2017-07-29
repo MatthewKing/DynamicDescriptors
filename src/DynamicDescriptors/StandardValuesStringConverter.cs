@@ -33,7 +33,7 @@ namespace DynamicDescriptors
         /// An <see cref="ITypeDescriptorContext"/> that provides a format context.
         /// </param>
         /// <returns>
-        /// true if <see cref="TypeConverter.GetStandardValues"/> should be called to
+        /// true if <see cref="TypeConverter.GetStandardValues()"/> should be called to
         /// find a common set of values the object supports; otherwise, false.
         /// </returns>
         public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
@@ -43,15 +43,15 @@ namespace DynamicDescriptors
 
         /// <summary>
         /// Returns whether the collection of standard values returned from
-        /// <see cref="TypeConverter.GetStandardValues"/> is an exclusive list of
+        /// <see cref="TypeConverter.GetStandardValues()"/> is an exclusive list of
         /// possible values, using the specified context.
         /// </summary>
         /// <param name="context">
         /// An <see cref="ITypeDescriptorContext"/> that provides a format context.
         /// </param>
         /// <returns>
-        /// true if the <see cref="StandardValuesCollection"/> returned from
-        /// <see cref="TypeConverter.GetStandardValues"/> is an exhaustive list of
+        /// true if the <see cref="TypeConverter.StandardValuesCollection"/> returned from
+        /// <see cref="TypeConverter.GetStandardValues()"/> is an exhaustive list of
         /// possible values; false if other values are possible.
         /// </returns>
         public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
@@ -68,7 +68,7 @@ namespace DynamicDescriptors
         /// converter is invoked. This parameter or properties of this parameter can be null.
         /// </param>
         /// <returns>
-        /// A <see cref="StandardValuesCollection"/> that holds a standard set of valid values,
+        /// A <see cref="TypeConverter.StandardValuesCollection"/> that holds a standard set of valid values,
         /// or null if the data type does not support a standard set of values.
         /// </returns>
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
