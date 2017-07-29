@@ -21,7 +21,8 @@ namespace DynamicDescriptors
 
         /// <summary>
         /// Gets or sets a value indicating whether the dynamic property descriptor is active.
-        /// If not, it won't be returned by the <see cref="DynamicTypeDescriptor.GetProperties"/> method.
+        /// If not, it won't be returned by the <see cref="DynamicTypeDescriptor.GetProperties()"/> 
+        /// or <see cref="DynamicTypeDescriptor.GetProperties(Attribute[])"/> methods.
         /// </summary>
         private bool _active;
 
@@ -76,7 +77,8 @@ namespace DynamicDescriptors
 
         /// <summary>
         /// Gets or sets a value indicating whether the dynamic property descriptor is active.
-        /// If not, it won't be returned by the <see cref="DynamicTypeDescriptor.GetProperties"/> method.
+        /// If not, it won't be returned by the <see cref="DynamicTypeDescriptor.GetProperties()"/>
+        /// or <see cref="DynamicTypeDescriptor.GetProperties(Attribute[])"/> methods.
         /// </summary>
         public bool Active
         {
