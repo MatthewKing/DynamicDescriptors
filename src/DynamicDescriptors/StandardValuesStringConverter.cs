@@ -60,7 +60,7 @@ namespace DynamicDescriptors
         }
 
         /// <summary>
-        /// Returns a collection of standard string values values.
+        /// Returns a collection of standard string values.
         /// </summary>
         /// <param name="context">
         /// An <see cref="ITypeDescriptorContext"/> that provides a format context that
