@@ -9,7 +9,7 @@
     <PackageProjectUrl>https://github.com/MatthewKing/DynamicDescriptors</PackageProjectUrl>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageTags>dynamic;descriptor;</PackageTags>
-    <VersionPrefix>1.5.0</VersionPrefix>
+    <VersionPrefix>1.6.0</VersionPrefix>
   </PropertyGroup>
 
   <PropertyGroup>
