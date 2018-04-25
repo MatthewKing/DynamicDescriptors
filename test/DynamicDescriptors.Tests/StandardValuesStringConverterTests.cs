@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Xunit;
@@ -8,10 +9,27 @@ namespace DynamicDescriptors.Tests
     public sealed class StandardValuesStringConverterTests
     {
         [Fact]
-        public void Constructor_ValuesIsNull_DoesNotThrowException()
+        public void EnumerableConstructor_ValuesIsNull_DoesNotThrowException()
         {
-            Action act = () => new StandardValuesStringConverter(null);
+            Action act = () => new StandardValuesStringConverter(null as IEnumerable<string>);
             act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void FuncConstructor_ValuesIsNull_DoesNotThrowException()
+        {
+            Action act = () => new StandardValuesStringConverter(null as Func<string[]>);
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void GetStandardValues_NoValuesFactoryProvided_ReturnsEmptyCollection()
+        {
+            var converter1 = new StandardValuesStringConverter(null as Func<string[]>);
+            converter1.GetStandardValues().Should().BeEmpty();
+
+            var converter2 = new StandardValuesStringConverter(null as IEnumerable<string>);
+            converter2.GetStandardValues().Should().BeEmpty();
         }
 
         [Fact]

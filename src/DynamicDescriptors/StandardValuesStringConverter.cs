@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
@@ -10,9 +11,14 @@ namespace DynamicDescriptors
     public sealed class StandardValuesStringConverter : StringConverter
     {
         /// <summary>
-        /// The standard values to be supported.
+        /// An empty StandardValuesCollection, to be returned when the values factory is not populated.
         /// </summary>
-        private readonly IEnumerable<string> _values;
+        private static readonly StandardValuesCollection EmptyStandardValuesCollection = new StandardValuesCollection(new string[] { });
+
+        /// <summary>
+        /// A factory that supplies the standard values to be supported.
+        /// </summary>
+        private readonly Func<string[]> _valuesFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StandardValuesStringConverter"/> class.
@@ -22,7 +28,23 @@ namespace DynamicDescriptors
         /// </param>
         public StandardValuesStringConverter(IEnumerable<string> values)
         {
-            _values = values ?? Enumerable.Empty<string>();
+            if (values != null)
+            {
+                _valuesFactory = () => values.ToArray();
+            }
+            else
+            {
+                _valuesFactory = null;
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StandardValuesStringConverter"/> class.
+        /// </summary>
+        /// <param name="valuesFactory">A function that supplies the standard values to be supported.</param>
+        public StandardValuesStringConverter(Func<string[]> valuesFactory)
+        {
+            _valuesFactory = valuesFactory;
         }
 
         /// <summary>
@@ -73,7 +95,9 @@ namespace DynamicDescriptors
         /// </returns>
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            return new StandardValuesCollection(new List<string>(_values));
+            return _valuesFactory != null
+                ? new StandardValuesCollection(_valuesFactory.Invoke())
+                : EmptyStandardValuesCollection;
         }
     }
 }
