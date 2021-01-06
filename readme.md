@@ -52,8 +52,8 @@ data["Property1"] = "value";
 data["Property2"] = 1;
 
 var types = new Dictionary<string, Type>();
-type["Property1"] = typeof(string);
-type["Property2"] = typeof(int);
+types["Property1"] = typeof(string);
+types["Property2"] = typeof(int);
 
 var descriptor = DynamicDescriptor.CreateFromDictionary(data, types);
 ```
