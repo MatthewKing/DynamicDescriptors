@@ -5,7 +5,7 @@
     <Title>DynamicDescriptors</Title>
     <Description>Runtime-customizable type and property descriptors.</Description>
     <Authors>Matthew King</Authors>
-    <Copyright>Copyright 2012-2018 Matthew King.</Copyright>
+    <Copyright>Copyright 2012-2021 Matthew King.</Copyright>
     <PackageProjectUrl>https://github.com/MatthewKing/DynamicDescriptors</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>dynamic;descriptor;</PackageTags>

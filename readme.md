@@ -121,5 +121,5 @@ PM> Install-Package DynamicDescriptors
 
 ## License and copyright
 
-Copyright Matthew King 2012-2020.
+Copyright Matthew King 2012-2021.
 Distributed under the [MIT License](http://opensource.org/licenses/MIT). Refer to license.txt for more information.
