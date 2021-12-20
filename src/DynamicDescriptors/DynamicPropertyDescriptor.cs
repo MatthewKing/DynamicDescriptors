@@ -216,7 +216,7 @@ public sealed class DynamicPropertyDescriptor : PropertyDescriptor
     public override void ResetValue(object component)
     {
         _descriptor.ResetValue(component);
-        OnValueChanged(component, new EventArgs());
+        OnValueChanged(component, EventArgs.Empty);
     }
 
     /// <summary>
@@ -231,7 +231,7 @@ public sealed class DynamicPropertyDescriptor : PropertyDescriptor
     public override void SetValue(object component, object value)
     {
         _descriptor.SetValue(component, value);
-        OnValueChanged(component, new EventArgs());
+        OnValueChanged(component, EventArgs.Empty);
     }
 
     /// <summary>

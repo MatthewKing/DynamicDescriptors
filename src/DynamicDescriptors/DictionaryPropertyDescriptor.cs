@@ -103,7 +103,7 @@ internal sealed class DictionaryPropertyDescriptor : PropertyDescriptor
     public override void ResetValue(object component)
     {
         _data[_propertyName] = null;
-        OnValueChanged(component, new EventArgs());
+        OnValueChanged(component, EventArgs.Empty);
     }
 
     /// <summary>
@@ -118,7 +118,7 @@ internal sealed class DictionaryPropertyDescriptor : PropertyDescriptor
     public override void SetValue(object component, object value)
     {
         _data[_propertyName] = value;
-        OnValueChanged(component, new EventArgs());
+        OnValueChanged(component, EventArgs.Empty);
     }
 
     /// <summary>
