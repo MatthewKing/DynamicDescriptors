@@ -16,7 +16,7 @@ public sealed class DictionaryPropertyDescriptorTests
 
         Action act = () => new DictionaryPropertyDescriptor(data, propertyName, propertyType);
 
-        act.ShouldThrow<ArgumentNullException>().WithMessage("data should not be null.\r\nParameter name: data");
+        act.Should().Throw<ArgumentNullException>();
     }
 
     [Fact]
@@ -28,7 +28,7 @@ public sealed class DictionaryPropertyDescriptorTests
 
         Action act = () => new DictionaryPropertyDescriptor(data, propertyName, propertyType);
 
-        act.ShouldThrow<ArgumentNullException>().WithMessage("propertyName should not be null.\r\nParameter name: propertyName");
+        act.Should().Throw<ArgumentNullException>();
     }
 
     [Fact]
@@ -40,7 +40,7 @@ public sealed class DictionaryPropertyDescriptorTests
 
         Action act = () => new DictionaryPropertyDescriptor(data, propertyName, propertyType);
 
-        act.ShouldThrow<ArgumentException>().WithMessage("propertyName should not be an empty string.\r\nParameter name: propertyName");
+        act.Should().Throw<ArgumentException>();
     }
 
     [Fact]
@@ -52,7 +52,7 @@ public sealed class DictionaryPropertyDescriptorTests
 
         Action act = () => new DictionaryPropertyDescriptor(data, propertyName, propertyType);
 
-        act.ShouldThrow<ArgumentNullException>().WithMessage("propertyType should not be null.\r\nParameter name: propertyType");
+        act.Should().Throw<ArgumentNullException>();
     }
 
     [Fact]

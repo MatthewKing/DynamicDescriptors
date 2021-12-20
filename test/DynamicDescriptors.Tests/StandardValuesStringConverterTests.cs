@@ -12,24 +12,24 @@ public sealed class StandardValuesStringConverterTests
     public void EnumerableConstructor_ValuesIsNull_DoesNotThrowException()
     {
         Action act = () => new StandardValuesStringConverter(null as IEnumerable<string>);
-        act.ShouldNotThrow();
+        act.Should().NotThrow();
     }
 
     [Fact]
     public void FuncConstructor_ValuesIsNull_DoesNotThrowException()
     {
         Action act = () => new StandardValuesStringConverter(null as Func<string[]>);
-        act.ShouldNotThrow();
+        act.Should().NotThrow();
     }
 
     [Fact]
     public void GetStandardValues_NoValuesFactoryProvided_ReturnsEmptyCollection()
     {
         var converter1 = new StandardValuesStringConverter(null as Func<string[]>);
-        converter1.GetStandardValues().Should().BeEmpty();
+        converter1.GetStandardValues().Cast<string>().Should().BeEmpty();
 
         var converter2 = new StandardValuesStringConverter(null as IEnumerable<string>);
-        converter2.GetStandardValues().Should().BeEmpty();
+        converter2.GetStandardValues().Cast<string>().Should().BeEmpty();
     }
 
     [Fact]
@@ -40,9 +40,9 @@ public sealed class StandardValuesStringConverterTests
         var converter = new StandardValuesStringConverter(values);
 
         divisor = 2;
-        converter.GetStandardValues().Should().ContainInOrder(new string[] { "2", "4", "6", "8", "10" });
+        converter.GetStandardValues().Cast<string>().Should().ContainInOrder(new string[] { "2", "4", "6", "8", "10" });
 
         divisor = 3;
-        converter.GetStandardValues().Should().ContainInOrder(new string[] { "3", "6", "9" });
+        converter.GetStandardValues().Cast<string>().Should().ContainInOrder(new string[] { "3", "6", "9" });
     }
 }

@@ -10,9 +10,8 @@ public sealed class DynamicPropertyDescriptorTests
     [Fact]
     public void Constructor_DescriptorIsNull_ThrowsArgumentNullException()
     {
-        const string message = "descriptor should not be null.\r\nParameter name: descriptor";
         Action act = () => new DynamicPropertyDescriptor(null);
-        act.ShouldThrow<ArgumentNullException>().WithMessage(message);
+        act.Should().Throw<ArgumentNullException>();
     }
 
     [Fact]

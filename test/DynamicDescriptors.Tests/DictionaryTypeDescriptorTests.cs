@@ -10,13 +10,11 @@ public sealed class DictionaryTypeDescriptorTests
     [Fact]
     public void Constructor_DataDictionaryIsNull_ThrowsArgumentNullException()
     {
-        const string message = "data should not be null.\r\nParameter name: data";
-
         Action act1 = () => new DictionaryTypeDescriptor(null);
-        act1.ShouldThrow<ArgumentNullException>().WithMessage(message);
+        act1.Should().Throw<ArgumentNullException>();
 
         Action act2 = () => new DictionaryTypeDescriptor(null, null);
-        act2.ShouldThrow<ArgumentNullException>().WithMessage(message);
+        act2.Should().Throw<ArgumentNullException>();
     }
 
     [Fact]

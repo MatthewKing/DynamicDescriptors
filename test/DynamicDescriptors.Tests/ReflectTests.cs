@@ -19,7 +19,7 @@ public sealed class ReflectTests
     {
         const string message = "Expression 'o => o.Method()' refers to a method, not a property.";
         Action act = () => Reflect.GetPropertyName<ExampleClass, string>(o => o.Method());
-        act.ShouldThrow<ArgumentException>().WithMessage(message);
+        act.Should().Throw<ArgumentException>().WithMessage(message);
     }
 
     [Fact]
@@ -27,7 +27,7 @@ public sealed class ReflectTests
     {
         const string message = "Expression 'o => o.field' refers to a field, not a property.";
         Action act = () => Reflect.GetPropertyName<ExampleClass, string>(o => o.field);
-        act.ShouldThrow<ArgumentException>().WithMessage(message);
+        act.Should().Throw<ArgumentException>().WithMessage(message);
     }
 
     [Fact]
@@ -44,7 +44,7 @@ public sealed class ReflectTests
     {
         const string message = "Expression 'o => o.Method()' refers to a method, not a property.";
         Action act = () => Reflect.GetPropertyInfo<ExampleClass, string>(o => o.Method());
-        act.ShouldThrow<ArgumentException>().WithMessage(message);
+        act.Should().Throw<ArgumentException>().WithMessage(message);
     }
 
     [Fact]
@@ -52,7 +52,7 @@ public sealed class ReflectTests
     {
         const string message = "Expression 'o => o.field' refers to a field, not a property.";
         Action act = () => Reflect.GetPropertyInfo<ExampleClass, string>(o => o.field);
-        act.ShouldThrow<ArgumentException>().WithMessage(message);
+        act.Should().Throw<ArgumentException>().WithMessage(message);
     }
 
     [Fact]
