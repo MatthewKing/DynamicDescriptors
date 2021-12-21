@@ -35,8 +35,8 @@ public sealed class DynamicTypeDescriptorTests
     [Fact]
     public void Constructor_ParentIsNull_ThrowsArgumentNullException()
     {
-        Action act = () => new DynamicTypeDescriptor(null);
-        act.Should().Throw<ArgumentNullException>();
+        var action = () => new DynamicTypeDescriptor(null);
+        action.Should().Throw<ArgumentNullException>();
     }
 
     [Fact]
@@ -232,11 +232,11 @@ public sealed class DynamicTypeDescriptorTests
         var instance = new ExampleType();
         var descriptor = DynamicDescriptor.CreateFromInstance(instance);
 
-        Action act1 = () => descriptor.GetDynamicProperty((ExampleType o) => o.field);
-        act1.Should().Throw<ArgumentException>().WithMessage("Expression 'o => o.field' refers to a field, not a property.");
+        var onField = () => descriptor.GetDynamicProperty((ExampleType o) => o.field);
+        onField.Should().Throw<ArgumentException>().WithMessage("Expression 'o => o.field' refers to a field, not a property.");
 
-        Action act2 = () => descriptor.GetDynamicProperty((ExampleType o) => o.Method());
-        act2.Should().Throw<ArgumentException>().WithMessage("Expression 'o => o.Method()' refers to a method, not a property.");
+        var onMethod = () => descriptor.GetDynamicProperty((ExampleType o) => o.Method());
+        onMethod.Should().Throw<ArgumentException>().WithMessage("Expression 'o => o.Method()' refers to a method, not a property.");
     }
 
     [Fact]

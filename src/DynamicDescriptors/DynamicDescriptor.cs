@@ -27,11 +27,11 @@ public static class DynamicDescriptor
     {
         if (instance == null)
         {
-            throw new ArgumentNullException("instance", "instance should not be null.");
+            throw new ArgumentNullException(nameof(instance));
         }
 
-        TypeDescriptionProvider provider = TypeDescriptor.GetProvider(instance);
-        ICustomTypeDescriptor descriptor = provider.GetTypeDescriptor(instance);
+        var provider = TypeDescriptor.GetProvider(instance);
+        var descriptor = provider.GetTypeDescriptor(instance);
         return new DynamicTypeDescriptor(descriptor);
     }
 
@@ -50,7 +50,7 @@ public static class DynamicDescriptor
     {
         if (descriptor == null)
         {
-            throw new ArgumentNullException("instance", "instance should not be null.");
+            throw new ArgumentNullException(nameof(descriptor));
         }
 
         return new DynamicTypeDescriptor(descriptor);
@@ -69,10 +69,10 @@ public static class DynamicDescriptor
     {
         if (data == null)
         {
-            throw new ArgumentNullException("data", "data should not be null.");
+            throw new ArgumentNullException(nameof(data));
         }
 
-        DictionaryTypeDescriptor descriptor = new DictionaryTypeDescriptor(data);
+        var descriptor = new DictionaryTypeDescriptor(data);
 
         return new DynamicTypeDescriptor(descriptor);
     }
@@ -91,10 +91,10 @@ public static class DynamicDescriptor
     {
         if (data == null)
         {
-            throw new ArgumentNullException("data", "data should not be null.");
+            throw new ArgumentNullException(nameof(data));
         }
 
-        DictionaryTypeDescriptor descriptor = new DictionaryTypeDescriptor(data, types);
+        var descriptor = new DictionaryTypeDescriptor(data, types);
 
         return new DynamicTypeDescriptor(descriptor);
     }

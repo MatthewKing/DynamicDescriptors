@@ -38,7 +38,7 @@ public sealed class DynamicTypeDescriptor : CustomTypeDescriptor, ICustomTypeDes
 
         foreach (PropertyDescriptor propertyDescriptor in base.GetProperties())
         {
-            DynamicPropertyDescriptor dynamicPropertyDescriptor = new DynamicPropertyDescriptor(propertyDescriptor);
+            var dynamicPropertyDescriptor = new DynamicPropertyDescriptor(propertyDescriptor);
             dynamicPropertyDescriptor.AddValueChanged(this, (s, e) => OnPropertyChanged(propertyDescriptor.Name));
 
             _dynamicProperties.Add(dynamicPropertyDescriptor);
@@ -71,9 +71,9 @@ public sealed class DynamicTypeDescriptor : CustomTypeDescriptor, ICustomTypeDes
     /// </returns>
     public override PropertyDescriptorCollection GetProperties(Attribute[] attributes)
     {
-        List<DynamicPropertyDescriptor> properties = new List<DynamicPropertyDescriptor>();
+        var properties = new List<DynamicPropertyDescriptor>();
 
-        foreach (DynamicPropertyDescriptor property in _dynamicProperties)
+        foreach (var property in _dynamicProperties)
         {
             if (attributes == null || property.Attributes.Contains(attributes))
             {
@@ -100,9 +100,9 @@ public sealed class DynamicTypeDescriptor : CustomTypeDescriptor, ICustomTypeDes
     /// </returns>
     public DynamicPropertyDescriptor GetDynamicProperty(string propertyName)
     {
-        foreach (DynamicPropertyDescriptor property in _dynamicProperties)
+        foreach (var property in _dynamicProperties)
         {
-            if (String.Equals(property.Name, propertyName))
+            if (string.Equals(property.Name, propertyName))
             {
                 return property;
             }
@@ -127,7 +127,7 @@ public sealed class DynamicTypeDescriptor : CustomTypeDescriptor, ICustomTypeDes
     /// </returns>
     public DynamicPropertyDescriptor GetDynamicProperty<TSource, TProperty>(Expression<Func<TSource, TProperty>> propertyExpression)
     {
-        string propertyName = Reflect.GetPropertyName(propertyExpression);
+        var propertyName = Reflect.GetPropertyName(propertyExpression);
         return GetDynamicProperty(propertyName);
     }
 
@@ -144,7 +144,7 @@ public sealed class DynamicTypeDescriptor : CustomTypeDescriptor, ICustomTypeDes
         // This should return all dynamic properties, even those that are inactive.
 
         return _dynamicProperties
-            .OrderBy(o => o.PropertyOrder ?? Int32.MaxValue)
+            .OrderBy(x => x.PropertyOrder ?? int.MaxValue)
             .ToArray();
     }
 

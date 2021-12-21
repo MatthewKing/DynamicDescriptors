@@ -18,16 +18,16 @@ public sealed class ReflectTests
     public void GetPropertyName_ExpressionRefersToAMethod_ThrowsArgumentException()
     {
         const string message = "Expression 'o => o.Method()' refers to a method, not a property.";
-        Action act = () => Reflect.GetPropertyName<ExampleClass, string>(o => o.Method());
-        act.Should().Throw<ArgumentException>().WithMessage(message);
+        var action = () => Reflect.GetPropertyName<ExampleClass, string>(o => o.Method());
+        action.Should().Throw<ArgumentException>().WithMessage(message);
     }
 
     [Fact]
     public void GetPropertyName_ExpressionRefersToAField_ThrowsArgumentException()
     {
         const string message = "Expression 'o => o.field' refers to a field, not a property.";
-        Action act = () => Reflect.GetPropertyName<ExampleClass, string>(o => o.field);
-        act.Should().Throw<ArgumentException>().WithMessage(message);
+        var action = () => Reflect.GetPropertyName<ExampleClass, string>(o => o.field);
+        action.Should().Throw<ArgumentException>().WithMessage(message);
     }
 
     [Fact]
@@ -43,16 +43,16 @@ public sealed class ReflectTests
     public void GetPropertyInfo_ExpressionRefersToAMethod_ThrowsArgumentException()
     {
         const string message = "Expression 'o => o.Method()' refers to a method, not a property.";
-        Action act = () => Reflect.GetPropertyInfo<ExampleClass, string>(o => o.Method());
-        act.Should().Throw<ArgumentException>().WithMessage(message);
+        var action = () => Reflect.GetPropertyInfo<ExampleClass, string>(o => o.Method());
+        action.Should().Throw<ArgumentException>().WithMessage(message);
     }
 
     [Fact]
     public void GetPropertyInfo_ExpressionRefersToAField_ThrowsArgumentException()
     {
         const string message = "Expression 'o => o.field' refers to a field, not a property.";
-        Action act = () => Reflect.GetPropertyInfo<ExampleClass, string>(o => o.field);
-        act.Should().Throw<ArgumentException>().WithMessage(message);
+        var action = () => Reflect.GetPropertyInfo<ExampleClass, string>(o => o.field);
+        action.Should().Throw<ArgumentException>().WithMessage(message);
     }
 
     [Fact]

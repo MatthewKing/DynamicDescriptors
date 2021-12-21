@@ -33,19 +33,9 @@ internal sealed class DictionaryPropertyDescriptor : PropertyDescriptor
     public DictionaryPropertyDescriptor(IDictionary<string, object> data, string propertyName, Type propertyType)
         : base(Preconditions.CheckNotNullOrEmpty(propertyName, nameof(propertyName)), null)
     {
-        if (data == null)
-        {
-            throw new ArgumentNullException("data", "data should not be null.");
-        }
-
-        if (propertyType == null)
-        {
-            throw new ArgumentNullException("propertyType", "propertyType should not be null.");
-        }
-
-        _data = data;
+        _data = data ?? throw new ArgumentNullException(nameof(data));
         _propertyName = propertyName;
-        _propertyType = propertyType;
+        _propertyType = propertyType ?? throw new ArgumentNullException(nameof(propertyType));
     }
 
     /// <summary>
@@ -61,10 +51,7 @@ internal sealed class DictionaryPropertyDescriptor : PropertyDescriptor
     /// <summary>
     /// Gets the type of the component this property is bound to.
     /// </summary>
-    public override Type ComponentType
-    {
-        get { return null; }
-    }
+    public override Type ComponentType => null;
 
     /// <summary>
     /// Returns the current value of the property on a component.
@@ -81,18 +68,12 @@ internal sealed class DictionaryPropertyDescriptor : PropertyDescriptor
     /// <summary>
     /// Gets a value indicating whether this property is read-only.
     /// </summary>
-    public override bool IsReadOnly
-    {
-        get { return false; }
-    }
+    public override bool IsReadOnly => false;
 
     /// <summary>
     /// Gets the type of the property.
     /// </summary>
-    public override Type PropertyType
-    {
-        get { return _propertyType; }
-    }
+    public override Type PropertyType => _propertyType;
 
     /// <summary>
     /// Resets the value for this property of the component to the default value.

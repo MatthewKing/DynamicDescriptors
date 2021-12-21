@@ -14,9 +14,8 @@ public sealed class DictionaryPropertyDescriptorTests
         string propertyName = "propertyName";
         Type propertyType = typeof(object);
 
-        Action act = () => new DictionaryPropertyDescriptor(data, propertyName, propertyType);
-
-        act.Should().Throw<ArgumentNullException>();
+        var action = () => new DictionaryPropertyDescriptor(data, propertyName, propertyType);
+        action.Should().Throw<ArgumentNullException>();
     }
 
     [Fact]
@@ -26,9 +25,8 @@ public sealed class DictionaryPropertyDescriptorTests
         string propertyName = null;
         Type propertyType = typeof(object);
 
-        Action act = () => new DictionaryPropertyDescriptor(data, propertyName, propertyType);
-
-        act.Should().Throw<ArgumentNullException>();
+        var action = () => new DictionaryPropertyDescriptor(data, propertyName, propertyType);
+        action.Should().Throw<ArgumentNullException>();
     }
 
     [Fact]
@@ -38,9 +36,8 @@ public sealed class DictionaryPropertyDescriptorTests
         string propertyName = String.Empty;
         Type propertyType = typeof(object);
 
-        Action act = () => new DictionaryPropertyDescriptor(data, propertyName, propertyType);
-
-        act.Should().Throw<ArgumentException>();
+        var action = () => new DictionaryPropertyDescriptor(data, propertyName, propertyType);
+        action.Should().Throw<ArgumentException>();
     }
 
     [Fact]
@@ -50,9 +47,8 @@ public sealed class DictionaryPropertyDescriptorTests
         string propertyName = "propertyName";
         Type propertyType = null;
 
-        Action act = () => new DictionaryPropertyDescriptor(data, propertyName, propertyType);
-
-        act.Should().Throw<ArgumentNullException>();
+        var action = () => new DictionaryPropertyDescriptor(data, propertyName, propertyType);
+        action.Should().Throw<ArgumentNullException>();
     }
 
     [Fact]

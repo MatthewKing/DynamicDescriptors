@@ -11,15 +11,15 @@ public sealed class StandardValuesStringConverterTests
     [Fact]
     public void EnumerableConstructor_ValuesIsNull_DoesNotThrowException()
     {
-        Action act = () => new StandardValuesStringConverter(null as IEnumerable<string>);
-        act.Should().NotThrow();
+        var action = () => new StandardValuesStringConverter(null as IEnumerable<string>);
+        action.Should().NotThrow();
     }
 
     [Fact]
     public void FuncConstructor_ValuesIsNull_DoesNotThrowException()
     {
-        Action act = () => new StandardValuesStringConverter(null as Func<string[]>);
-        act.Should().NotThrow();
+        var action = () => new StandardValuesStringConverter(null as Func<string[]>);
+        action.Should().NotThrow();
     }
 
     [Fact]

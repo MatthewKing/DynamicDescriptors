@@ -28,14 +28,9 @@ public sealed class StandardValuesStringConverter : StringConverter
     /// </param>
     public StandardValuesStringConverter(IEnumerable<string> values)
     {
-        if (values != null)
-        {
-            _valuesFactory = () => values.ToArray();
-        }
-        else
-        {
-            _valuesFactory = null;
-        }
+        _valuesFactory = values != null
+            ? () => values.ToArray()
+            : null;
     }
 
     /// <summary>

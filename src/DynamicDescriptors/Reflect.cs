@@ -29,7 +29,7 @@ internal static class Reflect
     {
         if (propertyExpression == null)
         {
-            throw new ArgumentNullException("propertyExpression", "propertyExpression should not be null.");
+            throw new ArgumentNullException(nameof(propertyExpression));
         }
 
         return GetPropertyInfo<TSource, TProperty>(propertyExpression).Name;
@@ -57,23 +57,19 @@ internal static class Reflect
     {
         if (propertyExpression == null)
         {
-            throw new ArgumentNullException("propertyExpression", "propertyExpression should not be null.");
+            throw new ArgumentNullException(nameof(propertyExpression));
         }
 
-        Type sourceType = typeof(TSource);
-
-        MemberExpression member = propertyExpression.Body as MemberExpression;
+        var member = propertyExpression.Body as MemberExpression;
         if (member == null)
         {
-            string message = $"Expression '{propertyExpression}' refers to a method, not a property.";
-            throw new ArgumentException(message);
+            throw new ArgumentException($"Expression '{propertyExpression}' refers to a method, not a property.");
         }
 
-        PropertyInfo propertyInfo = member.Member as PropertyInfo;
+        var propertyInfo = member.Member as PropertyInfo;
         if (propertyInfo == null)
         {
-            string message = $"Expression '{propertyExpression}' refers to a field, not a property.";
-            throw new ArgumentException(message);
+            throw new ArgumentException($"Expression '{propertyExpression}' refers to a field, not a property.");
         }
 
         return propertyInfo;

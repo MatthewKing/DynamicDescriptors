@@ -40,21 +40,20 @@ internal sealed class DictionaryTypeDescriptor : CustomTypeDescriptor, ICustomTy
     {
         if (data == null)
         {
-            throw new ArgumentNullException("data", "data should not be null.");
+            throw new ArgumentNullException(nameof(data));
         }
 
         _data = data;
         _propertyDescriptors = new List<DictionaryPropertyDescriptor>();
 
-        foreach (KeyValuePair<string, object> pair in _data)
+        foreach (var pair in _data)
         {
-            Type type;
-            if (types == null || !types.TryGetValue(pair.Key, out type))
+            if (types == null || !types.TryGetValue(pair.Key, out var type))
             {
                 type = typeof(object);
             }
 
-            DictionaryPropertyDescriptor propertyDescriptor = new DictionaryPropertyDescriptor(data, pair.Key, type);
+            var propertyDescriptor = new DictionaryPropertyDescriptor(data, pair.Key, type);
             propertyDescriptor.AddValueChanged(this, (s, e) => OnPropertyChanged(pair.Key));
 
             _propertyDescriptors.Add(propertyDescriptor);

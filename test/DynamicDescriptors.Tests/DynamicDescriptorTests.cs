@@ -10,8 +10,8 @@ public sealed class DynamicDescriptorTests
     [Fact]
     public void CreateFromInstance_InstanceIsNull_ThrowsArgumentNullException()
     {
-        Action act = () => DynamicDescriptor.CreateFromInstance<object>(null);
-        act.Should().Throw<ArgumentNullException>();
+        var action = () => DynamicDescriptor.CreateFromInstance<object>(null);
+        action.Should().Throw<ArgumentNullException>();
     }
 
     [Fact]
@@ -26,8 +26,8 @@ public sealed class DynamicDescriptorTests
     [Fact]
     public void CreateFromDescriptor_DescriptorIsNull_ThrowsArgumentNullException()
     {
-        Action act = () => DynamicDescriptor.CreateFromDescriptor(null);
-        act.Should().Throw<ArgumentNullException>();
+        var action = () => DynamicDescriptor.CreateFromDescriptor(null);
+        action.Should().Throw<ArgumentNullException>();
     }
 
     [Fact]
@@ -42,11 +42,11 @@ public sealed class DynamicDescriptorTests
     [Fact]
     public void CreateFromDictionary_DataDictionaryIsNull_ThrowsArgumentNullException()
     {
-        Action act1 = () => DynamicDescriptor.CreateFromDictionary(null);
-        act1.Should().Throw<ArgumentNullException>();
+        var action1 = () => DynamicDescriptor.CreateFromDictionary(null);
+        action1.Should().Throw<ArgumentNullException>();
 
-        Action act2 = () => DynamicDescriptor.CreateFromDictionary(null, null);
-        act2.Should().Throw<ArgumentNullException>();
+        var action2 = () => DynamicDescriptor.CreateFromDictionary(null, null);
+        action2.Should().Throw<ArgumentNullException>();
     }
 
     [Fact]

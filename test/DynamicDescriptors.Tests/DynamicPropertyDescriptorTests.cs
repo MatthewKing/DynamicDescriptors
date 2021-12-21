@@ -10,8 +10,8 @@ public sealed class DynamicPropertyDescriptorTests
     [Fact]
     public void Constructor_DescriptorIsNull_ThrowsArgumentNullException()
     {
-        Action act = () => new DynamicPropertyDescriptor(null);
-        act.Should().Throw<ArgumentNullException>();
+        var action = () => new DynamicPropertyDescriptor(null);
+        action.Should().Throw<ArgumentNullException>();
     }
 
     [Fact]

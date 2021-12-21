@@ -19,8 +19,7 @@ internal static class Preconditions
     {
         if (value == null)
         {
-            string message = parameterName + " should not be null.";
-            throw new ArgumentNullException(parameterName, message);
+            throw new ArgumentNullException(parameterName);
         }
 
         return value;
@@ -36,14 +35,12 @@ internal static class Preconditions
     {
         if (value == null)
         {
-            string message = parameterName + " should not be null.";
-            throw new ArgumentNullException(parameterName, message);
+            throw new ArgumentNullException(parameterName);
         }
 
         if (value.Length == 0)
         {
-            string message = parameterName + " should not be an empty string.";
-            throw new ArgumentException(message, parameterName);
+            throw new ArgumentException($"{parameterName} should be an empty string.", parameterName);
         }
 
         return value;

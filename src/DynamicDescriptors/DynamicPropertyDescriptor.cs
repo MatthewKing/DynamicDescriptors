@@ -82,8 +82,8 @@ public sealed class DynamicPropertyDescriptor : PropertyDescriptor
     /// </summary>
     public bool Active
     {
-        get { return _active; }
-        set { _active = value; }
+        get => _active;
+        set => _active = value;
     }
 
     /// <summary>
@@ -100,52 +100,28 @@ public sealed class DynamicPropertyDescriptor : PropertyDescriptor
     /// Gets the name of the category to which the member belongs,
     /// as specified in the <see cref="CategoryAttribute"/>.
     /// </summary>
-    public override string Category
-    {
-        get
-        {
-            return _categoryOverride ?? _descriptor.Category;
-        }
-    }
+    public override string Category => _categoryOverride ?? _descriptor.Category;
 
     /// <summary>
     /// Gets the type of the component this property is bound to.
     /// </summary>
-    public override Type ComponentType
-    {
-        get { return _descriptor.ComponentType; }
-    }
+    public override Type ComponentType => _descriptor.ComponentType;
 
     /// <summary>
     /// Gets the type converter for this property.
     /// </summary>
-    public override TypeConverter Converter
-    {
-        get { return _converterOverride ?? _descriptor.Converter; }
-    }
+    public override TypeConverter Converter => _converterOverride ?? _descriptor.Converter;
 
     /// <summary>
     /// Gets the description of the member,
     /// as specified in the <see cref="DescriptionAttribute"/>. 
     /// </summary>
-    public override string Description
-    {
-        get
-        {
-            return _descriptionOverride ?? _descriptor.Description;
-        }
-    }
+    public override string Description => _descriptionOverride ?? _descriptor.Description;
 
     /// <summary>
     /// Gets the name that can be displayed in a window, such as a Properties window.
     /// </summary>
-    public override string DisplayName
-    {
-        get
-        {
-            return _displayNameOverride ?? _descriptor.DisplayName;
-        }
-    }
+    public override string DisplayName => _displayNameOverride ?? _descriptor.DisplayName;
 
     /// <summary>
     /// Gets an editor of the specified type.
@@ -161,8 +137,7 @@ public sealed class DynamicPropertyDescriptor : PropertyDescriptor
     {
         if (editorBaseType != null)
         {
-            object editor;
-            if (_editorDictionary.TryGetValue(editorBaseType, out editor))
+            if (_editorDictionary.TryGetValue(editorBaseType, out var editor))
             {
                 return editor;
             }
@@ -186,26 +161,17 @@ public sealed class DynamicPropertyDescriptor : PropertyDescriptor
     /// <summary>
     /// Gets a value indicating whether this property is read-only.
     /// </summary>
-    public override bool IsReadOnly
-    {
-        get { return _isReadOnlyOverride ?? _descriptor.IsReadOnly; }
-    }
+    public override bool IsReadOnly => _isReadOnlyOverride ?? _descriptor.IsReadOnly;
 
     /// <summary>
     /// Gets the order in which this property will be retrieved from its type descriptor.
     /// </summary>
-    public int? PropertyOrder
-    {
-        get { return _propertyOrder; }
-    }
+    public int? PropertyOrder => _propertyOrder;
 
     /// <summary>
     /// Gets the type of the property.
     /// </summary>
-    public override Type PropertyType
-    {
-        get { return _descriptor.PropertyType; }
-    }
+    public override Type PropertyType => _descriptor.PropertyType;
 
     /// <summary>
     /// Resets the value for this property of the component to the default value.
