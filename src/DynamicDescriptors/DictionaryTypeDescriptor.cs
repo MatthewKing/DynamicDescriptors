@@ -50,7 +50,7 @@ internal sealed class DictionaryTypeDescriptor : CustomTypeDescriptor, ICustomTy
         {
             if (types == null || !types.TryGetValue(pair.Key, out var type))
             {
-                type = typeof(object);
+                type = pair.Value?.GetType() ?? typeof(object);
             }
 
             var propertyDescriptor = new DictionaryPropertyDescriptor(data, pair.Key, type);
