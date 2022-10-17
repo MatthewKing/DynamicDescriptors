@@ -13,7 +13,7 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <VersionPrefix>1.6.0</VersionPrefix>
+    <VersionPrefix>1.7.0</VersionPrefix>
   </PropertyGroup>
 
   <PropertyGroup>
