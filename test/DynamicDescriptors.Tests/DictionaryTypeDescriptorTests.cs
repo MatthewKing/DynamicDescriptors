@@ -64,20 +64,23 @@ public sealed class DictionaryTypeDescriptorTests
     }
 
     [Fact]
-    public void GetProperties_TypeOmitted_UsesObjectType()
+    public void GetProperties_TypeOmitted_UsesInferredType()
     {
         var data = new Dictionary<string, object>();
         data["Property1"] = "value1";
         data["Property2"] = 2;
+        data["Property3"] = null;
 
         var typeDescriptor = new DictionaryTypeDescriptor(data);
 
         var properties = typeDescriptor.GetProperties();
 
         properties[0].Name.Should().Be("Property1");
-        properties[0].PropertyType.Should().Be(typeof(object));
+        properties[0].PropertyType.Should().Be(typeof(string));
         properties[1].Name.Should().Be("Property2");
-        properties[1].PropertyType.Should().Be(typeof(object));
+        properties[1].PropertyType.Should().Be(typeof(int));
+        properties[2].Name.Should().Be("Property3");
+        properties[2].PropertyType.Should().Be(typeof(object));
     }
 
     [Fact]
